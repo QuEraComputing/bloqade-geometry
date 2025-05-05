@@ -7,8 +7,6 @@ from kirin.dialects import ilist
 from bloqade.geometry.dialects import grid
 
 
-
-
 class TestGridInterpreter:
 
     def _get_grid(self):

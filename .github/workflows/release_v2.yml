@@ -44,7 +44,7 @@ jobs:
         # Install a specific version of uv.
         version: "0.5.5"
     - name: Publish distribution 📦 to JFrog
-      run: uv publish --publish-url ${{secrets.JFROG_KIRIN_URL}} --username ${{secrets.JFROG_KIRIN_USERNAME}} --password ${{secrets.JFROG_KIRIN_PASSWORD}}
+      run: uv publish --publish-url ${{secrets.QUERA_ALGO_PYPI_REPOSITORY_URL}} --username ${{secrets.JFROG_KIRIN_USERNAME}} --password ${{secrets.JFROG_KIRIN_PASSWORD}}
 
 
   github-release:

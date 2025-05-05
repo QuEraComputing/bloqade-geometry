@@ -30,9 +30,6 @@ dev-dependencies = [
     "rust-just>=1.36.0",
 ]
 
-[tool.uv.sources]
-kirin-toolchain = { workspace = true }
-
 [dependency-groups]
 doc = [
     "griffe-inherited-docstrings>=1.1.1",

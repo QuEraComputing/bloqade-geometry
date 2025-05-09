@@ -26,11 +26,17 @@ class New(ir.Statement):
     name = "new"
     traits = frozenset({ir.Pure(), lowering.FromPythonCall()})
 
-    x_spacing: ir.SSAValue = info.argument(type=ilist.IListType[types.Float, types.Any])
-    y_spacing: ir.SSAValue = info.argument(type=ilist.IListType[types.Float, types.Any])
+    x_spacing: ir.SSAValue = info.argument(
+        type=ilist.IListType[types.Float, types.TypeVar("NumXStep")]
+    )
+    y_spacing: ir.SSAValue = info.argument(
+        type=ilist.IListType[types.Float, types.TypeVar("NumYStep")]
+    )
     x_init: ir.SSAValue = info.argument(types.Float)
     y_init: ir.SSAValue = info.argument(types.Float)
-    result: ir.ResultValue = info.result(GridType[types.Any, types.Any])
+    result: ir.ResultValue = info.result(
+        GridType[types.TypeVar("NumX"), types.TypeVar("NumY")]
+    )
 
 
 # Maybe do this with hints?

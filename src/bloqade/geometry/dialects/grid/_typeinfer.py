@@ -14,10 +14,12 @@ from .types import GridType
 class TypeInferMethods(MethodTable):
 
     def get_len(self, typ: types.TypeAttribute):
-        if typ.is_subseteq(ilist.IListType[types.Int, types.Any]):
-            typ = cast(types.Generic, typ)
-            if isinstance(typ.vars[1], types.Literal):
-                return types.Literal(typ.vars[1].data + 1)
+        if (typ := cast(types.Generic, typ)).is_subseteq(
+            ilist.IListType
+        ) and isinstance(typ.vars[1], types.Literal):
+            # assume typ is Generic since it must be if it passes the first check
+            # and the second check is to ensure that the length is a literal
+            return types.Literal(typ.vars[1].data + 1)
 
         return types.Any
 

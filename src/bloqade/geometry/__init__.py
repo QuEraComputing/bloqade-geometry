@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from bloqade-analog!")
+from .dialects import grid as grid

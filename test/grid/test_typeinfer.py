@@ -1,17 +1,24 @@
-from kirin import types
+from typing import Any, Literal
 
-from bloqade.geometry.dialects import grid
+from kirin import types
+from kirin.dialects import ilist
+
+from bloqade.geometry import grid
 from bloqade.geometry.prelude import geometry
 
 
 def test_typeinfer():
 
-    @geometry
-    def test_method():
-        return grid.New([1, 2], [1, 2], 0, 0)
+    @geometry(typeinfer=True)
+    def test_1(spacing: ilist.IList[float, Literal[2]]):
+        return grid.new(spacing, [1.0, 2.0], 0.0, 0.0)
 
-    test_method.return_type.is_equal(grid.GridType[types.Literal(3), types.Literal(3)])
+    assert test_1.return_type.is_equal(
+        grid.GridType[types.Literal(3), types.Literal(3)]
+    )
 
+    @geometry(typeinfer=True)
+    def test_2(spacing: ilist.IList[float, Any]):
+        return grid.new(spacing, [1.0, 2.0], 0.0, 0.0)
 
-if __name__ == "__main__":
-    test_typeinfer()
+    assert test_2.return_type.is_equal(grid.GridType[types.Any, types.Literal(3)])

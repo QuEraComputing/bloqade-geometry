@@ -1,4 +1,5 @@
 from ._dialect import dialect as dialect
+from ._typeinfer import TypeInferMethods as TypeInferMethods
 from .concrete import GridInterpreter as GridInterpreter
 from .stmts import (
     FromPositions as FromPositions,

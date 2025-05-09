@@ -67,8 +67,8 @@ def from_positions(x_positions, y_positions):
     """Construct a grid from the given x and y positions.
 
     Args:
-        x_positions (IList[float] | list[float]: a list/ilist of x positions
-        y_positions (IList[float] | list[float]: a list/ilist of y positions
+        x_positions (IList[float] | list[float]): A list or ilist of floats representing the x-coordinates of grid points.
+        y_positions (IList[float] | list[float]): A list or ilist of floats representing the y-coordinates of grid points.
 
     Returns:
         Grid: a grid object

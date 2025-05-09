@@ -4,7 +4,7 @@ import pytest
 from kirin import interp, ir
 from kirin.dialects import ilist
 
-from bloqade.geometry.dialects import grid
+from bloqade.geometry import grid
 
 
 class TestGridInterpreter:

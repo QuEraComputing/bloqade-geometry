@@ -1,4 +1,18 @@
 from ._dialect import dialect as dialect
+from ._interface import (
+    from_positions as from_positions,
+    get as get,
+    get_xpos as get_xpos,
+    get_ypos as get_ypos,
+    new as new,
+    repeat as repeat,
+    scale as scale,
+    shape as shape,
+    shift as shift,
+    sub_grid as sub_grid,
+    x_bounds as x_bounds,
+    y_bounds as y_bounds,
+)
 from ._typeinfer import TypeInferMethods as TypeInferMethods
 from .concrete import GridInterpreter as GridInterpreter
 from .stmts import (

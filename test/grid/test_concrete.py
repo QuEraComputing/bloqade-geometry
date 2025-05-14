@@ -82,6 +82,7 @@ class TestGridInterpreter:
             (grid.Scale, "scale", (1.0, 2.0)),
             (grid.Repeat, "repeat", (1, 2, 0.5, 1.0)),
             (grid.GetSubGrid, "get_view", (ilist.IList((0,)), ilist.IList((1,)))),
+            (grid.Shape, "shape", ()),
         ],
     )
     def test_template(self, stmt_type, method_name, args):

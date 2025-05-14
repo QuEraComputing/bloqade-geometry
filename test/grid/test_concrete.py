@@ -50,6 +50,26 @@ class TestGridInterpreter:
         assert len(result) == 1
         assert expected_grid_obj.is_equal(result[0])
 
+    def test_from_ranges(self):
+        x_start = 1
+        x_stop = 5
+        x_step = 1
+        y_start = 2
+        y_stop = 6
+        y_step = 1
+
+        expected_grid_obj = grid.Grid.from_positions(
+            [1.0, 2.0, 3.0, 4.0], [2.0, 3.0, 4.0, 5.0]
+        )
+
+        result = self.run_stmt(
+            grid.FromRanges, x_start, x_stop, x_step, y_start, y_stop, y_step
+        )
+
+        assert isinstance(result, tuple)
+        assert len(result) == 1
+        assert expected_grid_obj.is_equal(result[0])
+
     @pytest.mark.parametrize(
         ("stmt_type", "method_name", "args"),
         [

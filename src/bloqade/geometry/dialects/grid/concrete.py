@@ -23,6 +23,40 @@ class GridInterpreter(MethodTable):
             ),
         )
 
+    @impl(stmts.FromRanges)
+    def from_ranges(
+        self,
+        interp: Interpreter,
+        frame: Frame,
+        stmt: stmts.FromRanges,
+    ):
+        x_positions = list(
+            map(
+                float,
+                range(
+                    frame.get(stmt.x_start),
+                    frame.get(stmt.x_stop),
+                    frame.get(stmt.x_step),
+                ),
+            )
+        )
+        y_positions = list(
+            map(
+                float,
+                range(
+                    frame.get(stmt.y_start),
+                    frame.get(stmt.y_stop),
+                    frame.get(stmt.y_step),
+                ),
+            )
+        )
+        return (
+            Grid.from_positions(
+                x_positions=x_positions,
+                y_positions=y_positions,
+            ),
+        )
+
     @impl(stmts.New)
     def new(
         self,

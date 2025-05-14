@@ -25,7 +25,9 @@ class TestGridInterpreter:
         interpreter = self.init_interpreter()
         ssa_values = tuple(ir.TestValue() for _ in values)
         new_stmt = stmt_type(*ssa_values)
-        return interpreter.run_stmt(new_stmt, values)
+        with interpreter.new_frame(new_stmt) as frame:
+            frame.set_values(ssa_values, values)
+            return interpreter.frame_eval(frame, new_stmt)
 
     def test_from_positions(self):
         expected_grid_obj = grid.Grid.from_positions(

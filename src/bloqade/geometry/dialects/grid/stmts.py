@@ -32,7 +32,7 @@ class FromRanges(ir.Statement):
     y_start: ir.SSAValue = info.argument(types.Int)
     y_stop: ir.SSAValue = info.argument(types.Int)
     y_step: ir.SSAValue = info.argument(types.Int)
-    
+
 
 @statement(dialect=dialect)
 class New(ir.Statement):

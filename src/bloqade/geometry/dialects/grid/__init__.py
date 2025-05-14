@@ -17,6 +17,7 @@ from ._typeinfer import TypeInferMethods as TypeInferMethods
 from .concrete import GridInterpreter as GridInterpreter
 from .stmts import (
     FromPositions as FromPositions,
+    FromRanges as FromRanges,
     Get as Get,
     GetSubGrid as GetSubGrid,
     GetXBounds as GetXBounds,

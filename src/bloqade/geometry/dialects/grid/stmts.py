@@ -22,6 +22,19 @@ class FromPositions(ir.Statement):
 
 
 @statement(dialect=dialect)
+class FromRanges(ir.Statement):
+    name = "from_ranges"
+    traits = frozenset({ir.Pure(), lowering.FromPythonCall()})
+
+    x_start: ir.SSAValue = info.argument(types.Int)
+    x_stop: ir.SSAValue = info.argument(types.Int)
+    x_step: ir.SSAValue = info.argument(types.Int)
+    y_start: ir.SSAValue = info.argument(types.Int)
+    y_stop: ir.SSAValue = info.argument(types.Int)
+    y_step: ir.SSAValue = info.argument(types.Int)
+    
+
+@statement(dialect=dialect)
 class New(ir.Statement):
     name = "new"
     traits = frozenset({ir.Pure(), lowering.FromPythonCall()})

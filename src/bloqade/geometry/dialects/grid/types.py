@@ -85,13 +85,13 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
     def x_bounds(self):
         if self.x_init is None:
-            return (None, None)
+            raise ValueError("x_init is None, cannot compute bounds")
 
         return (self.x_init, self.x_init + self.width)
 
     def y_bounds(self):
         if self.y_init is None:
-            return (None, None)
+            raise ValueError("y_init is None, cannot compute bounds")
 
         return (self.y_init, self.y_init + self.height)
 

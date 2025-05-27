@@ -123,13 +123,23 @@ class TestGrid:
 
         assert new_grid.is_equal(expected_grid)
 
-    def test_empty_positions(self):
+    def test_empty_positions_x(self):
         grid_obj = Grid.from_positions([], [1])
         assert grid_obj.x_positions == ()
         assert grid_obj.y_positions == (1,)
         with pytest.raises(ValueError):
             grid_obj.x_bounds()
         assert grid_obj.y_bounds() == (1, 1)
+        assert grid_obj.width == 0
+        assert grid_obj.height == 0
+
+    def test_empty_positions_y(self):
+        grid_obj = Grid.from_positions([1], [])
+        assert grid_obj.x_positions == (1,)
+        assert grid_obj.y_positions == ()
+        with pytest.raises(ValueError):
+            grid_obj.y_bounds()
+        assert grid_obj.x_bounds() == (1, 1)
         assert grid_obj.width == 0
         assert grid_obj.height == 0
 

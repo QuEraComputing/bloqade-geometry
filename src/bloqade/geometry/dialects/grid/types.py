@@ -5,10 +5,31 @@ from typing import Any, Generic, Sequence, TypeVar
 
 from kirin import ir, types
 from kirin.dialects import ilist
+from kirin.dialects.py.slice import SliceAttribute
 from kirin.print.printer import Printer
 
 NumX = TypeVar("NumX")
 NumY = TypeVar("NumY")
+
+
+def get_indices(size: int, index: Any) -> ilist.IList[int, Any]:
+    if isinstance(index, slice):
+        return ilist.IList(range(size)[index])
+    elif isinstance(index, SliceAttribute):
+        slice_value = index.unwrap()
+        return ilist.IList(range(size)[slice_value])
+    elif isinstance(index, int):
+        if index < 0:
+            index += size
+
+        if index < 0 or index >= size:
+            raise IndexError("Index out of range")
+
+        return ilist.IList([index])
+    elif isinstance(index, ilist.IList):
+        return index
+    else:
+        raise TypeError("Index must be an int, slice, or IList")
 
 
 @dataclasses.dataclass
@@ -125,6 +146,16 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         self, x_indices: ilist.IList[int, Any], y_indices: ilist.IList[int, Any]
     ):
         return SubGrid(parent=self, x_indices=x_indices, y_indices=y_indices)
+
+    def __getitem__(self, indices: tuple):
+        if len(indices) != 2:
+            raise IndexError("Grid indexing requires two indices (x, y)")
+
+        x_index, y_index = indices
+        x_indices = get_indices(len(self.x_spacing) + 1, x_index)
+        y_indices = get_indices(len(self.y_spacing) + 1, y_index)
+
+        return self.get_view(x_indices=x_indices, y_indices=y_indices)
 
     def __hash__(self) -> int:
         return id(self)

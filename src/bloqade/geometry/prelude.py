@@ -43,6 +43,6 @@ def geometry(
             typeinfer=typeinfer,
             no_raise=no_raise,
         )
-        default_pass(mt)
+        default_pass.fixpoint(mt)
 
     return run_pass

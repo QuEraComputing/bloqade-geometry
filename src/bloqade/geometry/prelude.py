@@ -1,4 +1,5 @@
 from kirin import ir
+from kirin.dialects import ilist
 from kirin.ir.method import Method
 from kirin.passes.default import Default
 from kirin.prelude import structural
@@ -12,6 +13,7 @@ def geometry(
     self,
 ):
     """Structural kernel with optimization passes."""
+    ilist_desugar_pass = ilist.IListDesugar(self)
 
     def run_pass(
         mt: Annotated[Method, Doc("The method to run pass on.")],
@@ -31,6 +33,8 @@ def geometry(
         ] = False,
         no_raise: Annotated[bool, Doc("do not raise exception during analysis")] = True,
     ) -> None:
+        ilist_desugar_pass(mt)
+
         default_pass = Default(
             self,
             verify=verify,

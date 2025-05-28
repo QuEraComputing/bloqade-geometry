@@ -155,18 +155,24 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         self, indices: tuple[int, int]
     ) -> "SubGrid[Literal[1], Literal[1]]": ...
     @overload
-    def __getitem__(self, indices: tuple[int, slice]) -> "SubGrid[Literal[1], Any]": ...
+    def __getitem__(
+        self, indices: tuple[int, slice | list[int]]
+    ) -> "SubGrid[Literal[1], Any]": ...
     @overload
     def __getitem__(
         self, indices: tuple[int, ilist.IList[int, NumX]]
     ) -> "SubGrid[Literal[1], NumX]": ...
     @overload
-    def __getitem__(self, indices: tuple[slice, int]) -> "SubGrid[Any, Literal[1]]": ...
-    @overload
-    def __getitem__(self, indices: tuple[slice, slice]) -> "SubGrid[Any, Any]": ...
+    def __getitem__(
+        self, indices: tuple[slice | list[int], int]
+    ) -> "SubGrid[Any, Literal[1]]": ...
     @overload
     def __getitem__(
-        self, indices: tuple[slice, ilist.IList[int, NumX]]
+        self, indices: tuple[slice | list[int], slice]
+    ) -> "SubGrid[Any, Any]": ...
+    @overload
+    def __getitem__(
+        self, indices: tuple[slice | list[int], ilist.IList[int, NumX]]
     ) -> "SubGrid[Any, NumX]": ...
     @overload
     def __getitem__(
@@ -174,7 +180,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     ) -> "SubGrid[NumX, Literal[1]]": ...
     @overload
     def __getitem__(
-        self, indices: tuple[ilist.IList[int, NumX], slice]
+        self, indices: tuple[ilist.IList[int, NumX], slice | list[int]]
     ) -> "SubGrid[NumX, Any]": ...
     @overload
     def __getitem__(

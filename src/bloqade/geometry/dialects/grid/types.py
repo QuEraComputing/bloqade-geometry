@@ -1,7 +1,7 @@
 import dataclasses
 from functools import cached_property
 from itertools import chain
-from typing import Any, Generic, Sequence, TypeVar
+from typing import Any, Generic, Literal, Sequence, TypeVar, overload
 
 from kirin import ir, types
 from kirin.dialects import ilist
@@ -147,7 +147,41 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     ):
         return SubGrid(parent=self, x_indices=x_indices, y_indices=y_indices)
 
-    def __getitem__(self, indices: tuple):
+    NumX = TypeVar("NumX")
+    NumY = TypeVar("NumY")
+
+    @overload
+    def __getitem__(
+        self, indices: tuple[int, int]
+    ) -> "SubGrid[Literal[1], Literal[1]]": ...
+    @overload
+    def __getitem__(self, indices: tuple[int, slice]) -> "SubGrid[Literal[1], Any]": ...
+    @overload
+    def __getitem__(
+        self, indices: tuple[int, ilist.IList[int, NumX]]
+    ) -> "SubGrid[Literal[1], NumX]": ...
+    @overload
+    def __getitem__(self, indices: tuple[slice, int]) -> "SubGrid[Any, Literal[1]]": ...
+    @overload
+    def __getitem__(self, indices: tuple[slice, slice]) -> "SubGrid[Any, Any]": ...
+    @overload
+    def __getitem__(
+        self, indices: tuple[slice, ilist.IList[int, NumX]]
+    ) -> "SubGrid[Any, NumX]": ...
+    @overload
+    def __getitem__(
+        self, indices: tuple[ilist.IList[int, NumX], int]
+    ) -> "SubGrid[NumX, Literal[1]]": ...
+    @overload
+    def __getitem__(
+        self, indices: tuple[ilist.IList[int, NumX], slice]
+    ) -> "SubGrid[NumX, Any]": ...
+    @overload
+    def __getitem__(
+        self, indices: tuple[ilist.IList[int, NumX], ilist.IList[int, NumY]]
+    ) -> "SubGrid[NumX, NumY]": ...
+
+    def __getitem__(self, indices):
         if len(indices) != 2:
             raise IndexError("Grid indexing requires two indices (x, y)")
 

@@ -115,6 +115,10 @@ def get_ypos(grid: Grid[typing.Any, Ny]) -> ilist.IList[float, Ny]:
 
 @typing.overload
 def sub_grid(
+    grid: Grid, x_indices: ilist.IList[int, Nx], y_indices: ilist.IList[int, Ny]
+) -> Grid[Nx, Ny]: ...
+@typing.overload
+def sub_grid(
     grid: Grid, x_indices: ilist.IList[int, Nx], y_indices: list[int]
 ) -> Grid[Nx, typing.Any]: ...
 @typing.overload

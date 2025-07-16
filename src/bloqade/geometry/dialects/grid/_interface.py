@@ -171,7 +171,7 @@ def y_bounds(grid: Grid[typing.Any, typing.Any]) -> tuple[float, float]:
 
 @_wraps(Positions)
 def positions(
-    grid: Grid[typing.Any, typing.Any]
+    grid: Grid[typing.Any, typing.Any],
 ) -> ilist.IList[tuple[float, float], typing.Any]:
     """Get the positions of a grid as a list of (x, y) tuples.
 

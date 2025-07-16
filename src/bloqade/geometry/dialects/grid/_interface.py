@@ -12,6 +12,7 @@ from .stmts import (
     GetYBounds,
     GetYPos,
     New,
+    Positions,
     Repeat,
     Scale,
     Shape,
@@ -160,6 +161,22 @@ def y_bounds(grid: Grid[typing.Any, typing.Any]) -> tuple[float, float]:
     Returns:
         tuple[float, float]: a tuple of (min_y, max_y)
         tuple[None, None]: if the grid has no initial y position
+    """
+    ...
+
+
+@_wraps(Positions)
+def positions(
+    grid: Grid[typing.Any, typing.Any],
+) -> ilist.IList[tuple[float, float], typing.Any]:
+    """Get the positions of a grid as a list of (x, y) tuples.
+
+    Args:
+        grid (Grid): a grid object
+
+    Returns:
+        ilist.IList[tuple[float, float], typing.Any]: a list of (x, y) tuples representing the positions of the grid points
+
     """
     ...
 

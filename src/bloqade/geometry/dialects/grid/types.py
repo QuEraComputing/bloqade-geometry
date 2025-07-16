@@ -1,6 +1,6 @@
 import dataclasses
 from functools import cached_property
-from itertools import chain
+from itertools import chain, product
 from typing import Any, Generic, Sequence, TypeVar
 
 from kirin import ir, types
@@ -117,6 +117,10 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
                 (pos := pos + spacing for spacing in self.y_spacing),
             )
         )
+
+    @cached_property
+    def positions(self) -> ilist.IList[tuple[float, float], Any]:
+        return ilist.IList(tuple(product(self.x_positions, self.y_positions)))
 
     def get(self, idx: tuple[int, int]) -> tuple[float, float]:
         return (self.x_positions[idx[0]], self.y_positions[idx[1]])

@@ -181,3 +181,13 @@ class GridInterpreter(MethodTable):
         y_gap = frame.get_casted(stmt.y_gap, float)
 
         return (grid.repeat(x_times, y_times, x_gap, y_gap),)
+
+    @impl(stmts.Positions)
+    def positions(
+        self,
+        interp: Interpreter,
+        frame: Frame,
+        stmt: stmts.Positions,
+    ):
+        grid = frame.get_casted(stmt.zone, Grid)
+        return (grid.positions,)

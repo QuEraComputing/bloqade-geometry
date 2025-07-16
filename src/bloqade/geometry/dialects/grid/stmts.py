@@ -52,6 +52,16 @@ class New(ir.Statement):
     )
 
 
+@statement(dialect=dialect)
+class Positions(ir.Statement):
+    name = "positions"
+    traits = frozenset({ir.Pure(), lowering.FromPythonCall()})
+    zone: ir.SSAValue = info.argument(type=GridType[types.Any, types.Any])
+    result: ir.ResultValue = info.result(
+        ilist.IListType[types.Tuple[types.Float, types.Float], types.Any]
+    )
+
+
 # Maybe do this with hints?
 @statement(dialect=dialect)
 class Shape(ir.Statement):

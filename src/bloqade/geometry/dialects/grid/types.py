@@ -202,7 +202,16 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         return self.get_view(x_indices=x_indices, y_indices=y_indices)
 
     def __hash__(self) -> int:
-        return id(self)
+        return hash((Grid, self.x_spacing, self.y_spacing, self.x_init, self.y_init))
+
+    def __eq__(self, other: Any) -> bool:
+        return (
+            isinstance(other, Grid)
+            and self.x_spacing == other.x_spacing
+            and self.y_spacing == other.y_spacing
+            and self.x_init == other.x_init
+            and self.y_init == other.y_init
+        )
 
     def print_impl(self, printer: Printer) -> None:
         printer.plain_print("Grid(")
@@ -309,7 +318,10 @@ class SubGrid(Grid[NumX, NumY]):
         )
 
     def __hash__(self):
-        return id(self)
+        return super().__hash__()
+
+    def __eq__(self, other: Any) -> bool:
+        return super().__eq__(other)
 
     def __repr__(self):
         return super().__repr__()

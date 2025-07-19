@@ -202,7 +202,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         return self.get_view(x_indices=x_indices, y_indices=y_indices)
 
     def __hash__(self) -> int:
-        return hash((Grid, self.x_spacing, self.y_spacing, self.x_init, self.y_init))
+        return hash((self.x_spacing, self.y_spacing, self.x_init, self.y_init))
 
     def __eq__(self, other: Any) -> bool:
         return (

@@ -80,7 +80,7 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.Shape,
     ):
-        return (frame.get_typed(stmt.zone, Grid).shape,)
+        return (frame.get_casted(stmt.zone, Grid).shape,)
 
     @impl(stmts.Get)
     def get(
@@ -89,9 +89,9 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.Get,
     ):
-        idx = frame.get_typed(stmt.idx, tuple)
+        idx = frame.get_casted(stmt.idx, tuple)
 
-        return (frame.get_typed(stmt.zone, Grid).get(idx),)
+        return (frame.get_casted(stmt.zone, Grid).get(idx),)
 
     @impl(stmts.GetXPos)
     def get_x_pos(
@@ -100,7 +100,7 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.GetXPos,
     ):
-        return (frame.get_typed(stmt.zone, Grid).x_positions,)
+        return (frame.get_casted(stmt.zone, Grid).x_positions,)
 
     @impl(stmts.GetYPos)
     def get_y_pos(
@@ -109,7 +109,7 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.GetYPos,
     ):
-        return (frame.get_typed(stmt.zone, Grid).y_positions,)
+        return (frame.get_casted(stmt.zone, Grid).y_positions,)
 
     @impl(stmts.GetSubGrid)
     def get_view(
@@ -118,10 +118,10 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.GetSubGrid,
     ):
-        x_indices = frame.get_typed(stmt.x_indices, ilist.IList)
-        y_indices = frame.get_typed(stmt.y_indices, ilist.IList)
+        x_indices = frame.get_casted(stmt.x_indices, ilist.IList)
+        y_indices = frame.get_casted(stmt.y_indices, ilist.IList)
 
-        return (frame.get_typed(stmt.zone, Grid).get_view(x_indices, y_indices),)
+        return (frame.get_casted(stmt.zone, Grid).get_view(x_indices, y_indices),)
 
     @impl(stmts.GetXBounds)
     def get_x_bounds(
@@ -130,7 +130,7 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.GetXBounds,
     ):
-        return (frame.get_typed(stmt.zone, Grid).x_bounds(),)
+        return (frame.get_casted(stmt.zone, Grid).x_bounds(),)
 
     @impl(stmts.GetYBounds)
     def get_y_bounds(
@@ -139,7 +139,7 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.GetYBounds,
     ):
-        return (frame.get_typed(stmt.zone, Grid).y_bounds(),)
+        return (frame.get_casted(stmt.zone, Grid).y_bounds(),)
 
     @impl(stmts.Shift)
     def shift(
@@ -148,9 +148,9 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.Shift,
     ):
-        grid = frame.get_typed(stmt.zone, Grid)
-        x_shift = frame.get_typed(stmt.x_shift, float)
-        y_shift = frame.get_typed(stmt.y_shift, float)
+        grid = frame.get_casted(stmt.zone, Grid)
+        x_shift = frame.get_casted(stmt.x_shift, float)
+        y_shift = frame.get_casted(stmt.y_shift, float)
 
         return (grid.shift(x_shift, y_shift),)
 
@@ -161,9 +161,9 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.Scale,
     ):
-        grid = frame.get_typed(stmt.zone, Grid)
-        x_scale = frame.get_typed(stmt.x_scale, float)
-        y_scale = frame.get_typed(stmt.y_scale, float)
+        grid = frame.get_casted(stmt.zone, Grid)
+        x_scale = frame.get_casted(stmt.x_scale, float)
+        y_scale = frame.get_casted(stmt.y_scale, float)
 
         return (grid.scale(x_scale, y_scale),)
 
@@ -174,10 +174,20 @@ class GridInterpreter(MethodTable):
         frame: Frame,
         stmt: stmts.Repeat,
     ):
-        grid = frame.get_typed(stmt.zone, Grid)
-        x_times = frame.get_typed(stmt.x_times, int)
-        y_times = frame.get_typed(stmt.y_times, int)
-        x_gap = frame.get_typed(stmt.x_gap, float)
-        y_gap = frame.get_typed(stmt.y_gap, float)
+        grid = frame.get_casted(stmt.zone, Grid)
+        x_times = frame.get_casted(stmt.x_times, int)
+        y_times = frame.get_casted(stmt.y_times, int)
+        x_gap = frame.get_casted(stmt.x_gap, float)
+        y_gap = frame.get_casted(stmt.y_gap, float)
 
         return (grid.repeat(x_times, y_times, x_gap, y_gap),)
+
+    @impl(stmts.Positions)
+    def positions(
+        self,
+        interp: Interpreter,
+        frame: Frame,
+        stmt: stmts.Positions,
+    ):
+        grid = frame.get_casted(stmt.zone, Grid)
+        return (grid.positions,)

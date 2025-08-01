@@ -35,9 +35,13 @@ def get_indices(size: int, index: Any) -> ilist.IList[int, Any]:
 @dataclasses.dataclass
 class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     x_spacing: tuple[float, ...]
+    """A tuple of x spacings between grid points."""
     y_spacing: tuple[float, ...]
+    """A tuple of y spacings between grid points."""
     x_init: float | None
+    """The initial x position of the grid, or None if not set."""
     y_init: float | None
+    """The initial y position of the grid, or None if not set."""
 
     def __post_init__(self):
         assert all(ele >= 0 for ele in self.x_spacing)
@@ -56,6 +60,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         )
 
     def is_equal(self, other: Any) -> bool:
+        """Check if two grid geometry are equal."""
         if not isinstance(other, Grid):
             return False
         return (
@@ -71,6 +76,16 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         x_positions: Sequence[float],
         y_positions: Sequence[float],
     ):
+        """Create a grid from sequence of x and y positions.
+
+        Args:
+
+            x_positions (Sequence[float]): The x positions.
+            y_positions (Sequence[float]): The y positions.
+
+        Returns:
+            Grid: A grid object with the specified x and y positions.
+        """
         x_init = x_positions[0] if len(x_positions) > 0 else None
         y_init = y_positions[0] if len(y_positions) > 0 else None
 
@@ -92,25 +107,45 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
     @cached_property
     def shape(self) -> tuple[int, int]:
+        """Shape of the grid, which is (num_x, num_y).
+
+        Note:
+            if x_init or y_init is None, num_x or num_y will be 0 respectively.
+
+        """
         num_x = 0 if self.x_init is None else len(self.x_spacing) + 1
         num_y = 0 if self.y_init is None else len(self.y_spacing) + 1
         return (num_x, num_y)
 
     @cached_property
     def width(self):
+        """Width of the grid, which is the sum of `x_spacing`."""
         return sum(self.x_spacing)
 
     @cached_property
     def height(self):
+        """Height of the grid, which is the sum of `y_spacing`."""
         return sum(self.y_spacing)
 
     def x_bounds(self):
+        """X bounds of the grid, which is `(x_init, x_init + width)`.
+
+        Raises:
+            ValueError: If x_init is None, cannot compute bounds.
+
+        """
         if self.x_init is None:
             raise ValueError("x_init is None, cannot compute bounds")
 
         return (self.x_init, self.x_init + self.width)
 
     def y_bounds(self):
+        """Y bounds of the grid, which is `(y_init, y_init + height)`.
+
+        Raises:
+            ValueError: If y_init is None, cannot compute bounds.
+
+        """
         if self.y_init is None:
             raise ValueError("y_init is None, cannot compute bounds")
 
@@ -118,6 +153,12 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
     @cached_property
     def x_positions(self) -> tuple[float, ...]:
+        """X positions of the grid.
+
+        Note:
+            If `x_init` is None, returns an empty tuple.
+
+        """
         if self.x_init is None:
             return ()
         return tuple(
@@ -129,6 +170,12 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
     @cached_property
     def y_positions(self) -> tuple[float, ...]:
+        """Y positions of the grid.
+
+        Note:
+            If `y_init` is None, returns an empty tuple.
+
+        """
         if self.y_init is None:
             return ()
 
@@ -141,55 +188,86 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
     @cached_property
     def positions(self) -> ilist.IList[tuple[float, float], Any]:
+        """All positions in the grid as a list of tuples (x, y) in lexicographic order."""
         return ilist.IList(tuple(product(self.x_positions, self.y_positions)))
 
     def get(self, idx: tuple[int, int]) -> tuple[float, float]:
+        """Get the (x, y) position at the specified grid index.
+
+        Args:
+            idx (tuple[int, int]): The (x, y) index in the grid.
+
+        Returns:
+            tuple[float, float]: The (x, y) position in the grid.
+        """
         return (self.x_positions[idx[0]], self.y_positions[idx[1]])
 
-    def get_view(
-        self, x_indices: ilist.IList[int, Any], y_indices: ilist.IList[int, Any]
-    ):
-        return SubGrid(parent=self, x_indices=x_indices, y_indices=y_indices)
+    Nx = TypeVar("Nx")
+    Ny = TypeVar("Ny")
 
-    NumX = TypeVar("NumX")
-    NumY = TypeVar("NumY")
+    def get_view(
+        self, x_indices: ilist.IList[int, Nx], y_indices: ilist.IList[int, Ny]
+    ) -> "Grid[Nx, Ny]":
+        """Get a sub-grid view based on the specified x and y indices.
+
+        Args:
+            x_indices (ilist.IList[int, Nx]): The x indices to include in the sub-grid.
+            y_indices (ilist.IList[int, Ny]): The y indices to include in the sub-grid.
+
+        Returns:
+            Grid[Nx, Ny]: The sub-grid view.
+        """
+        return SubGrid(parent=self, x_indices=x_indices, y_indices=y_indices)
 
     @overload
     def __getitem__(
         self, indices: tuple[int, int]
-    ) -> "SubGrid[Literal[1], Literal[1]]": ...
+    ) -> "Grid[Literal[1], Literal[1]]": ...
     @overload
     def __getitem__(
         self, indices: tuple[int, slice | list[int]]
-    ) -> "SubGrid[Literal[1], Any]": ...
+    ) -> "Grid[Literal[1], Any]": ...
+
+    Ny = TypeVar("Ny")
+
     @overload
     def __getitem__(
-        self, indices: tuple[int, ilist.IList[int, NumX]]
-    ) -> "SubGrid[Literal[1], NumX]": ...
+        self, indices: tuple[int, ilist.IList[int, Ny]]
+    ) -> "Grid[Literal[1], Ny]": ...
     @overload
     def __getitem__(
         self, indices: tuple[slice | list[int], int]
-    ) -> "SubGrid[Any, Literal[1]]": ...
+    ) -> "Grid[Any, Literal[1]]": ...
     @overload
     def __getitem__(
         self, indices: tuple[slice | list[int], slice]
-    ) -> "SubGrid[Any, Any]": ...
+    ) -> "Grid[Any, Any]": ...
+
+    Ny = TypeVar("Ny")
+
     @overload
     def __getitem__(
-        self, indices: tuple[slice | list[int], ilist.IList[int, NumX]]
-    ) -> "SubGrid[Any, NumX]": ...
+        self, indices: tuple[slice | list[int], ilist.IList[int, Ny]]
+    ) -> "Grid[Any, Ny]": ...
     @overload
     def __getitem__(
-        self, indices: tuple[ilist.IList[int, NumX], int]
-    ) -> "SubGrid[NumX, Literal[1]]": ...
+        self, indices: tuple[ilist.IList[int, Nx], int]
+    ) -> "Grid[Nx, Literal[1]]": ...
+
+    Nx = TypeVar("Nx")
+
     @overload
     def __getitem__(
-        self, indices: tuple[ilist.IList[int, NumX], slice | list[int]]
-    ) -> "SubGrid[NumX, Any]": ...
+        self, indices: tuple[ilist.IList[int, Nx], slice | list[int]]
+    ) -> "Grid[Nx, Any]": ...
+
+    Nx = TypeVar("Nx")
+    Ny = TypeVar("Ny")
+
     @overload
     def __getitem__(
-        self, indices: tuple[ilist.IList[int, NumX], ilist.IList[int, NumY]]
-    ) -> "SubGrid[NumX, NumY]": ...
+        self, indices: tuple[ilist.IList[int, Nx], ilist.IList[int, Ny]]
+    ) -> "Grid[Nx, Ny]": ...
 
     def __getitem__(self, indices):
         if len(indices) != 2:
@@ -228,6 +306,16 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         return self
 
     def scale(self, x_scale: float, y_scale: float) -> "Grid[NumX, NumY]":
+        """Scale the grid spacings the specified x and y factors with fix x and y initial positions.
+
+        Args:
+            x_scale (float): The scaling factor for the x spacings.
+            y_scale (float): The scaling factor for the y spacings.
+
+        Returns:
+            Grid[Nx, Ny]: A new grid with scaled x and y spacings
+
+        """
         return Grid(
             x_spacing=tuple(spacing * x_scale for spacing in self.x_spacing),
             y_spacing=tuple(spacing * y_scale for spacing in self.y_spacing),
@@ -238,9 +326,31 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     def set_init(
         self, x_init: float | None, y_init: float | None
     ) -> "Grid[NumX, NumY]":
+        """Set the initial positions of the grid.
+
+        Args:
+            x_init (float | None): The new initial x position. If None, the grid
+                will not have an initial x position.
+            y_init (float | None): The new initial y position. If None, the grid
+                will not have an initial y position.
+
+        Returns:
+            Grid[Nx, Ny]: A new grid with the specified initial positions.
+
+        """
         return Grid(self.x_spacing, self.y_spacing, x_init, y_init)
 
     def shift(self, x_shift: float, y_shift: float) -> "Grid[NumX, NumY]":
+        """Shift the grid by the specified x and y amounts.
+
+        Args:
+            x_shift (float): The amount to shift the grid in the x direction.
+            y_shift (float): The amount to shift the grid in the y direction.
+
+        Returns:
+            Grid[Nx, Ny]: A new grid with the specified shifts applied to the initial positions.
+
+        """
         return Grid(
             x_spacing=self.x_spacing,
             y_spacing=self.y_spacing,
@@ -251,6 +361,18 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     def repeat(
         self, x_times: int, y_times: int, x_gap: float, y_gap: float
     ) -> "Grid[NumX, NumY]":
+        """Repeat the grid in both x and y directions with specified gaps.
+
+        Args:
+            x_times (int): The number of times to repeat the grid in the x direction.
+            y_times (int): The number of times to repeat the grid in the y direction.
+            x_gap (float): The gap between repeated grids in the x direction.
+            y_gap (float): The gap between repeated grids in the y direction.
+
+        Returns:
+            Grid[Nx, Ny]: A new grid with the specified repetitions and gaps.
+
+        """
 
         if x_times < 1 or y_times < 1:
             raise ValueError("x_times and y_times must be non-negative")
@@ -267,6 +389,12 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
 @dataclasses.dataclass
 class SubGrid(Grid[NumX, NumY]):
+    """A sub-grid view of a parent grid with specified x and y indices.
+
+    For API documentation see the `Grid` class.
+
+    """
+
     x_spacing: tuple[float, ...] = dataclasses.field(init=False)
     y_spacing: tuple[float, ...] = dataclasses.field(init=False)
     x_init: float | None = dataclasses.field(init=False)
@@ -327,4 +455,4 @@ class SubGrid(Grid[NumX, NumY]):
         return super().__repr__()
 
 
-GridType = types.Generic(Grid, types.TypeVar("NumX"), types.TypeVar("NumY"))
+GridType = types.Generic(Grid, types.TypeVar("Nx"), types.TypeVar("Ny"))

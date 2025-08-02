@@ -12,8 +12,6 @@ nav:
     - index.md
     - Installation: install.md
     - Contributing: contrib.md
-  - Blog:
-    - blog/index.md
 
   - API Reference:
     - Geometry dialect groups:

@@ -54,7 +54,7 @@ jobs:
     if: github.event.pull_request
     steps:
         - uses: actions/checkout@v4
-        - name: download covearge
+        - name: download coverage
           uses: actions/download-artifact@v4
           with:
             name: code-coverage-report
@@ -66,7 +66,7 @@ jobs:
               echo "Coverage file does not exist"
               exit 1
             fi
-        - name: post covearge
+        - name: post coverage
           uses: orgoro/coverage@v3.2
           with:
             coverageFile: coverage.xml

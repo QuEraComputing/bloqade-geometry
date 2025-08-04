@@ -17,6 +17,6 @@ See [Installation](install.md) for more details.
 ## Other useful links
 
 - [Documentation](https://queracomputing.github.io/bloqade-geometry/dev/)
-- [Bloqade Shuttle](https://queracomputing.github.io/bloqade-shuttle/dev/) a related
+- [Bloqade Shuttle](https://queracomputing.github.io/bloqade-shuttle/dev/): a related
 project that uses Bloqade Geometry to define and manipulate atom shuttling operations
 in neutral atom quantum computers.

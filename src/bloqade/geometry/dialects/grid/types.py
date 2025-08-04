@@ -202,6 +202,9 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         """
         return (self.x_positions[idx[0]], self.y_positions[idx[1]])
 
+    Nx = TypeVar("Nx")
+    Ny = TypeVar("Ny")
+
     def get_view(
         self, x_indices: ilist.IList[int, Nx], y_indices: ilist.IList[int, Ny]
     ) -> "Grid[Nx, Ny]":
@@ -215,9 +218,6 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             Grid[Nx, Ny]: The sub-grid view.
         """
         return SubGrid(parent=self, x_indices=x_indices, y_indices=y_indices)
-
-    Ny = TypeVar("Ny")
-    Nx = TypeVar("Nx")
 
     @overload
     def __getitem__(

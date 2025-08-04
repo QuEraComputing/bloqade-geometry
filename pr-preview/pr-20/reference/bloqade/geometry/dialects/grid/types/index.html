@@ -168,7 +168,13 @@ y_positions (Sequence[float]): The y positions.
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.NumX>NumX</span>, <span title=bloqade.geometry.dialects.grid.types.NumY>NumY</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: A new grid with the specified repetitions and gaps.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>361</span>
+  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.NumX>NumX</span>, <span title=bloqade.geometry.dialects.grid.types.NumY>NumY</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: A new grid with the specified repetitions and gaps.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>355</span>
+<span class=normal>356</span>
+<span class=normal>357</span>
+<span class=normal>358</span>
+<span class=normal>359</span>
+<span class=normal>360</span>
+<span class=normal>361</span>
 <span class=normal>362</span>
 <span class=normal>363</span>
 <span class=normal>364</span>
@@ -188,13 +194,7 @@ y_positions (Sequence[float]): The y positions.
 <span class=normal>378</span>
 <span class=normal>379</span>
 <span class=normal>380</span>
-<span class=normal>381</span>
-<span class=normal>382</span>
-<span class=normal>383</span>
-<span class=normal>384</span>
-<span class=normal>385</span>
-<span class=normal>386</span>
-<span class=normal>387</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>repeat</span><span class=p>(</span>
+<span class=normal>381</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>repeat</span><span class=p>(</span>
     <span class=bp>self</span><span class=p>,</span> <span class=n>x_times</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>y_times</span><span class=p>:</span> <span class=nb>int</span><span class=p>,</span> <span class=n>x_gap</span><span class=p>:</span> <span class=nb>float</span><span class=p>,</span> <span class=n>y_gap</span><span class=p>:</span> <span class=nb>float</span>
 <span class=p>)</span> <span class=o>-&gt;</span> <span class=s2>&quot;Grid[NumX, NumY]&quot;</span><span class=p>:</span>
 <span class=w>    </span><span class=sd>&quot;&quot;&quot;Repeat the grid in both x and y directions with specified gaps.</span>
@@ -227,7 +227,13 @@ y_positions (Sequence[float]): The y positions.
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.NumX>NumX</span>, <span title=bloqade.geometry.dialects.grid.types.NumY>NumY</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: A new grid with scaled x and y spacings</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>308</span>
+  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.NumX>NumX</span>, <span title=bloqade.geometry.dialects.grid.types.NumY>NumY</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: A new grid with scaled x and y spacings</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>302</span>
+<span class=normal>303</span>
+<span class=normal>304</span>
+<span class=normal>305</span>
+<span class=normal>306</span>
+<span class=normal>307</span>
+<span class=normal>308</span>
 <span class=normal>309</span>
 <span class=normal>310</span>
 <span class=normal>311</span>
@@ -237,13 +243,7 @@ y_positions (Sequence[float]): The y positions.
 <span class=normal>315</span>
 <span class=normal>316</span>
 <span class=normal>317</span>
-<span class=normal>318</span>
-<span class=normal>319</span>
-<span class=normal>320</span>
-<span class=normal>321</span>
-<span class=normal>322</span>
-<span class=normal>323</span>
-<span class=normal>324</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>scale</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x_scale</span><span class=p>:</span> <span class=nb>float</span><span class=p>,</span> <span class=n>y_scale</span><span class=p>:</span> <span class=nb>float</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=s2>&quot;Grid[NumX, NumY]&quot;</span><span class=p>:</span>
+<span class=normal>318</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>scale</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x_scale</span><span class=p>:</span> <span class=nb>float</span><span class=p>,</span> <span class=n>y_scale</span><span class=p>:</span> <span class=nb>float</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=s2>&quot;Grid[NumX, NumY]&quot;</span><span class=p>:</span>
 <span class=w>    </span><span class=sd>&quot;&quot;&quot;Scale the grid spacings the specified x and y factors with fix x and y initial positions.</span>
 
 <span class=sd>    Args:</span>
@@ -268,7 +268,13 @@ y_positions (Sequence[float]): The y positions.
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.NumX>NumX</span>, <span title=bloqade.geometry.dialects.grid.types.NumY>NumY</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: A new grid with the specified initial positions.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>326</span>
+  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.NumX>NumX</span>, <span title=bloqade.geometry.dialects.grid.types.NumY>NumY</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: A new grid with the specified initial positions.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>320</span>
+<span class=normal>321</span>
+<span class=normal>322</span>
+<span class=normal>323</span>
+<span class=normal>324</span>
+<span class=normal>325</span>
+<span class=normal>326</span>
 <span class=normal>327</span>
 <span class=normal>328</span>
 <span class=normal>329</span>
@@ -277,13 +283,7 @@ y_positions (Sequence[float]): The y positions.
 <span class=normal>332</span>
 <span class=normal>333</span>
 <span class=normal>334</span>
-<span class=normal>335</span>
-<span class=normal>336</span>
-<span class=normal>337</span>
-<span class=normal>338</span>
-<span class=normal>339</span>
-<span class=normal>340</span>
-<span class=normal>341</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>set_init</span><span class=p>(</span>
+<span class=normal>335</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>set_init</span><span class=p>(</span>
     <span class=bp>self</span><span class=p>,</span> <span class=n>x_init</span><span class=p>:</span> <span class=nb>float</span> <span class=o>|</span> <span class=kc>None</span><span class=p>,</span> <span class=n>y_init</span><span class=p>:</span> <span class=nb>float</span> <span class=o>|</span> <span class=kc>None</span>
 <span class=p>)</span> <span class=o>-&gt;</span> <span class=s2>&quot;Grid[NumX, NumY]&quot;</span><span class=p>:</span>
 <span class=w>    </span><span class=sd>&quot;&quot;&quot;Set the initial positions of the grid.</span>
@@ -305,7 +305,13 @@ y_positions (Sequence[float]): The y positions.
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.NumX>NumX</span>, <span title=bloqade.geometry.dialects.grid.types.NumY>NumY</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: A new grid with the specified shifts applied to the initial positions.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>343</span>
+  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.NumX>NumX</span>, <span title=bloqade.geometry.dialects.grid.types.NumY>NumY</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: A new grid with the specified shifts applied to the initial positions.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>337</span>
+<span class=normal>338</span>
+<span class=normal>339</span>
+<span class=normal>340</span>
+<span class=normal>341</span>
+<span class=normal>342</span>
+<span class=normal>343</span>
 <span class=normal>344</span>
 <span class=normal>345</span>
 <span class=normal>346</span>
@@ -315,13 +321,7 @@ y_positions (Sequence[float]): The y positions.
 <span class=normal>350</span>
 <span class=normal>351</span>
 <span class=normal>352</span>
-<span class=normal>353</span>
-<span class=normal>354</span>
-<span class=normal>355</span>
-<span class=normal>356</span>
-<span class=normal>357</span>
-<span class=normal>358</span>
-<span class=normal>359</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>shift</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x_shift</span><span class=p>:</span> <span class=nb>float</span><span class=p>,</span> <span class=n>y_shift</span><span class=p>:</span> <span class=nb>float</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=s2>&quot;Grid[NumX, NumY]&quot;</span><span class=p>:</span>
+<span class=normal>353</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>shift</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x_shift</span><span class=p>:</span> <span class=nb>float</span><span class=p>,</span> <span class=n>y_shift</span><span class=p>:</span> <span class=nb>float</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=s2>&quot;Grid[NumX, NumY]&quot;</span><span class=p>:</span>
 <span class=w>    </span><span class=sd>&quot;&quot;&quot;Shift the grid by the specified x and y amounts.</span>
 
 <span class=sd>    Args:</span>
@@ -408,13 +408,13 @@ y_positions (Sequence[float]): The y positions.
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.Grid.Nx>Nx</span>, <span title=bloqade.geometry.dialects.grid.types.Grid.Ny>Ny</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: The sub-grid view.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>440</span>
-<span class=normal>441</span>
-<span class=normal>442</span>
-<span class=normal>443</span>
-<span class=normal>444</span>
-<span class=normal>445</span>
-<span class=normal>446</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>get_view</span><span class=p>(</span>
+  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.Grid.Nx>Nx</span>, <span title=bloqade.geometry.dialects.grid.types.Grid.Ny>Ny</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: The sub-grid view.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>434</span>
+<span class=normal>435</span>
+<span class=normal>436</span>
+<span class=normal>437</span>
+<span class=normal>438</span>
+<span class=normal>439</span>
+<span class=normal>440</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>get_view</span><span class=p>(</span>
     <span class=bp>self</span><span class=p>,</span> <span class=n>x_indices</span><span class=p>:</span> <span class=n>ilist</span><span class=o>.</span><span class=n>IList</span><span class=p>[</span><span class=nb>int</span><span class=p>,</span> <span class=n>Any</span><span class=p>],</span> <span class=n>y_indices</span><span class=p>:</span> <span class=n>ilist</span><span class=o>.</span><span class=n>IList</span><span class=p>[</span><span class=nb>int</span><span class=p>,</span> <span class=n>Any</span><span class=p>]</span>
 <span class=p>):</span>
     <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>parent</span><span class=o>.</span><span class=n>get_view</span><span class=p>(</span>

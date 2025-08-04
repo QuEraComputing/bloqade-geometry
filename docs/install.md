@@ -1,9 +1,11 @@
 # Installation
 
-Bloqade Shuttle is available on pypi registry. Shuttle supports Python 3.10 or later. We recommend using Python 3.10+ for the best experience.
+Bloqade Geometry is available on the PyPI registry. Bloqade Geometry supports Python
+3.10 or later. We recommend using Python 3.10+ for the best experience.
 
 We strongly recommend developing project using [`uv`](https://docs.astral.sh/uv/),
-which is the official development environment for Kirin and Bloqade Shuttle. You can install `uv` using the following command:
+which is the official development environment for Kirin and Bloqade Geometry. You can
+install `uv` using the following command:
 
 === "Linux and macOS"
 
@@ -25,7 +27,8 @@ uv add bloqade-geometry
 
 ## Development
 
-We use `uv` to manage the development environment, after you install `uv`, you can install the development dependencies using the following command:
+We use `uv` to manage the development environment, after you install `uv`, you can
+install the development dependencies using the following command:
 
 ```bash
 uv sync

@@ -219,6 +219,9 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         """
         return SubGrid(parent=self, x_indices=x_indices, y_indices=y_indices)
 
+    Ny = TypeVar("Ny")
+    Nx = TypeVar("Nx")
+
     @overload
     def __getitem__(
         self, indices: tuple[int, int]
@@ -227,8 +230,6 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     def __getitem__(
         self, indices: tuple[int, slice | list[int]]
     ) -> "Grid[Literal[1], Any]": ...
-
-    Ny = TypeVar("Ny")
 
     @overload
     def __getitem__(
@@ -243,8 +244,6 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         self, indices: tuple[slice | list[int], slice]
     ) -> "Grid[Any, Any]": ...
 
-    Ny = TypeVar("Ny")
-
     @overload
     def __getitem__(
         self, indices: tuple[slice | list[int], ilist.IList[int, Ny]]
@@ -254,15 +253,10 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         self, indices: tuple[ilist.IList[int, Nx], int]
     ) -> "Grid[Nx, Literal[1]]": ...
 
-    Nx = TypeVar("Nx")
-
     @overload
     def __getitem__(
         self, indices: tuple[ilist.IList[int, Nx], slice | list[int]]
     ) -> "Grid[Nx, Any]": ...
-
-    Nx = TypeVar("Nx")
-    Ny = TypeVar("Ny")
 
     @overload
     def __getitem__(

@@ -115,10 +115,7 @@ y_positions (Sequence[float]): The y positions.
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.Grid.Nx>Nx</span>, <span title=bloqade.geometry.dialects.grid.types.Grid.Ny>Ny</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: The sub-grid view.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>205</span>
-<span class=normal>206</span>
-<span class=normal>207</span>
-<span class=normal>208</span>
+  </span> (<code>bloqade.geometry.dialects.grid.types.Grid</code>)' href=#bloqade.geometry.dialects.grid.types.Grid>Grid</a>[<span title=bloqade.geometry.dialects.grid.types.Grid.Nx>Nx</span>, <span title=bloqade.geometry.dialects.grid.types.Grid.Ny>Ny</span>]</code> </td> <td> <div class=doc-md-description> <p>Grid[Nx, Ny]: The sub-grid view.</p> </div> </td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>src/bloqade/geometry/dialects/grid/types.py</code></summary> <div class=highlight><table class=highlighttable><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal>208</span>
 <span class=normal>209</span>
 <span class=normal>210</span>
 <span class=normal>211</span>
@@ -127,7 +124,10 @@ y_positions (Sequence[float]): The y positions.
 <span class=normal>214</span>
 <span class=normal>215</span>
 <span class=normal>216</span>
-<span class=normal>217</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>get_view</span><span class=p>(</span>
+<span class=normal>217</span>
+<span class=normal>218</span>
+<span class=normal>219</span>
+<span class=normal>220</span></pre></div></td><td class=code><div><pre><span></span><code><span class=k>def</span><span class=w> </span><span class=nf>get_view</span><span class=p>(</span>
     <span class=bp>self</span><span class=p>,</span> <span class=n>x_indices</span><span class=p>:</span> <span class=n>ilist</span><span class=o>.</span><span class=n>IList</span><span class=p>[</span><span class=nb>int</span><span class=p>,</span> <span class=n>Nx</span><span class=p>],</span> <span class=n>y_indices</span><span class=p>:</span> <span class=n>ilist</span><span class=o>.</span><span class=n>IList</span><span class=p>[</span><span class=nb>int</span><span class=p>,</span> <span class=n>Ny</span><span class=p>]</span>
 <span class=p>)</span> <span class=o>-&gt;</span> <span class=s2>&quot;Grid[Nx, Ny]&quot;</span><span class=p>:</span>
 <span class=w>    </span><span class=sd>&quot;&quot;&quot;Get a sub-grid view based on the specified x and y indices.</span>

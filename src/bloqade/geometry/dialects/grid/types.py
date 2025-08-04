@@ -202,9 +202,6 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         """
         return (self.x_positions[idx[0]], self.y_positions[idx[1]])
 
-    Nx = TypeVar("Nx")
-    Ny = TypeVar("Ny")
-
     def get_view(
         self, x_indices: ilist.IList[int, Nx], y_indices: ilist.IList[int, Ny]
     ) -> "Grid[Nx, Ny]":
@@ -300,14 +297,14 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         return self
 
     def scale(self, x_scale: float, y_scale: float) -> "Grid[NumX, NumY]":
-        """Scale the grid spacings the specified x and y factors with fix x and y initial positions.
+        """Scale the grid spacings by the specified x and y factors with fixed x and y initial positions.
 
         Args:
             x_scale (float): The scaling factor for the x spacings.
             y_scale (float): The scaling factor for the y spacings.
 
         Returns:
-            Grid[Nx, Ny]: A new grid with scaled x and y spacings
+            Grid[NumX, NumY]: A new grid with scaled x and y spacings
 
         """
         return Grid(
@@ -329,7 +326,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
                 will not have an initial y position.
 
         Returns:
-            Grid[Nx, Ny]: A new grid with the specified initial positions.
+            Grid[NumX, NumY]: A new grid with the specified initial positions.
 
         """
         return Grid(self.x_spacing, self.y_spacing, x_init, y_init)
@@ -342,7 +339,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             y_shift (float): The amount to shift the grid in the y direction.
 
         Returns:
-            Grid[Nx, Ny]: A new grid with the specified shifts applied to the initial positions.
+            Grid[NumX, NumY]: A new grid with the specified shifts applied to the initial positions.
 
         """
         return Grid(
@@ -364,7 +361,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             y_gap (float): The gap between repeated grids in the y direction.
 
         Returns:
-            Grid[Nx, Ny]: A new grid with the specified repetitions and gaps.
+            Grid[NumX, NumY]: A new grid with the specified repetitions and gaps.
 
         """
 

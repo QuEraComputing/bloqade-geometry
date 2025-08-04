@@ -13,3 +13,9 @@ uv add bloqade-geometry
 ```
 
 See [Installation](install.md) for more details.
+
+## Other useful links
+
+- [Bloqade Shuttle](https://queracomputing.github.io/bloqade-shuttle/dev/) a related
+project that uses Bloqade Geometry to define and manipulate atom shuttling operations
+in neutral atom quantum computers.

@@ -6,8 +6,6 @@ objects used for defining layouts and operation of neutral atom quantum computer
 Currently the only supported geometry is a grid, but more geometries will be added in
 the future. For a full list of features, see the [API Reference](reference/bloqade/geometry/prelude/).
 
-[API Reference](reference/bloqade/geometry/prelude/).
-
 ## Installation
 
 ```bash

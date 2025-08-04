@@ -20,7 +20,7 @@ which is the official development environment for Kirin and Bloqade Shuttle. You
 
 ## Install package:
 ```bash
-uv add bloqade-shuttle
+uv add bloqade-geometry
 ```
 
 ## Development

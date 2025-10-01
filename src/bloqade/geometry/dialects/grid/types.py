@@ -11,6 +11,26 @@ NumX = TypeVar("NumX")
 NumY = TypeVar("NumY")
 
 
+def get_indices(size: int, index: Any) -> ilist.IList[int, Any]:
+    if isinstance(index, slice):
+        return ilist.IList(range(size)[index])
+    elif isinstance(index, slice):
+        slice_value = index
+        return ilist.IList(range(size)[slice_value])
+    elif isinstance(index, int):
+        if index < 0:
+            index += size
+
+        if index < 0 or index >= size:
+            raise IndexError("Index out of range")
+
+        return ilist.IList([index])
+    elif isinstance(index, ilist.IList):
+        return index
+    else:
+        raise TypeError("Index must be an int, slice, or IList")
+
+
 @dataclasses.dataclass
 class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     x_spacing: tuple[float, ...]

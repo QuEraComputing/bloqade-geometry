@@ -205,19 +205,47 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     Nx = TypeVar("Nx")
     Ny = TypeVar("Ny")
 
+    @overload
     def get_view(
         self, x_indices: ilist.IList[int, Nx], y_indices: ilist.IList[int, Ny]
-    ) -> "Grid[Nx, Ny]":
+    ) -> "Grid[Nx, Ny]": ...
+
+    @overload
+    def get_view(
+        self, x_indices: Sequence[int], y_indices: ilist.IList[int, Ny]
+    ) -> "Grid[Any, Ny]": ...
+
+    @overload
+    def get_view(
+        self, x_indices: ilist.IList[int, Nx], y_indices: Sequence[int]
+    ) -> "Grid[Nx, Any]": ...
+
+    @overload
+    def get_view(
+        self, x_indices: Sequence[int], y_indices: Sequence[int]
+    ) -> "Grid[Any, Any]": ...
+
+    def get_view(self, x_indices, y_indices) -> "Grid":
         """Get a sub-grid view based on the specified x and y indices.
 
         Args:
-            x_indices (ilist.IList[int, Nx]): The x indices to include in the sub-grid.
-            y_indices (ilist.IList[int, Ny]): The y indices to include in the sub-grid.
+            x_indices (Sequence[int]): The x indices to include in the sub-grid.
+            y_indices (Sequence[int]): The y indices to include in the sub-grid.
 
         Returns:
-            Grid[Nx, Ny]: The sub-grid view.
+            Grid: The sub-grid view.
         """
-        return SubGrid(parent=self, x_indices=x_indices, y_indices=y_indices)
+        if isinstance(x_indices, ilist.IList):
+            x_indices = x_indices.data
+
+        if isinstance(y_indices, ilist.IList):
+            y_indices = y_indices.data
+
+        return SubGrid(
+            parent=self,
+            x_indices=ilist.IList(x_indices),
+            y_indices=ilist.IList(y_indices),
+        )
 
     @overload
     def __getitem__(
@@ -428,9 +456,7 @@ class SubGrid(Grid[NumX, NumY]):
             types.Literal(len(self.y_indices)),
         )
 
-    def get_view(
-        self, x_indices: ilist.IList[int, Any], y_indices: ilist.IList[int, Any]
-    ):
+    def get_view(self, x_indices, y_indices):
         return self.parent.get_view(
             x_indices=ilist.IList([self.x_indices[x_index] for x_index in x_indices]),
             y_indices=ilist.IList([self.y_indices[y_index] for y_index in y_indices]),

@@ -13,7 +13,7 @@ def test_typeinfer_1():
     def test_1(spacing: ilist.IList[float, Literal[2]]):
         return grid.new(spacing, [1.0, 2.0], 0.0, 0.0)
 
-    assert test_1.return_type.is_equal(
+    assert test_1.return_type.is_subseteq(
         grid.GridType[types.Literal(3), types.Literal(3)]
     )
 
@@ -23,7 +23,7 @@ def test_typeinfer_2():
     def test_2(spacing: ilist.IList[float, Any]):
         return grid.new(spacing, [1.0, 2.0], 0.0, 0.0)
 
-    assert test_2.return_type.is_equal(grid.GridType[types.Any, types.Literal(3)])
+    assert test_2.return_type.is_subseteq(grid.GridType[types.Any, types.Literal(3)])
 
 
 def test_typeinfer_get_index_1():

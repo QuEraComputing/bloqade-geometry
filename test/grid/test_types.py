@@ -127,7 +127,10 @@ class TestGrid:
         grid_obj = Grid.from_positions([], [1])
         assert grid_obj.x_positions == ()
         assert grid_obj.y_positions == (1,)
-        assert grid_obj.x_bounds() == (None, None)
+
+        with pytest.raises(ValueError):
+            grid_obj.x_bounds()
+
         assert grid_obj.y_bounds() == (1, 1)
         assert grid_obj.width == 0
         assert grid_obj.height == 0

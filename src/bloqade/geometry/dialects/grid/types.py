@@ -15,8 +15,7 @@ def get_indices(size: int, index: Any) -> ilist.IList[int, Any]:
     if isinstance(index, slice):
         return ilist.IList(range(size)[index])
     elif isinstance(index, slice):
-        slice_value = index
-        return ilist.IList(range(size)[slice_value])
+        return ilist.IList(range(size)[index])
     elif isinstance(index, int):
         if index < 0:
             index += size
@@ -134,7 +133,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
         """
         if self.x_init is None:
-            return (None, None)
+            raise ValueError("x_init is None, cannot compute bounds")
 
         return (self.x_init, self.x_init + self.width)
 
@@ -146,7 +145,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
         """
         if self.y_init is None:
-            return (None, None)
+            raise ValueError("y_init is None, cannot compute bounds")
 
         return (self.y_init, self.y_init + self.height)
 
@@ -298,7 +297,16 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         return self.get_view(x_indices=x_indices, y_indices=y_indices)
 
     def __hash__(self) -> int:
-        return id(self)
+        return hash((self.x_spacing, self.y_spacing, self.x_init, self.y_init))
+
+    def __eq__(self, other: Any) -> bool:
+        return (
+            isinstance(other, Grid)
+            and self.x_spacing == other.x_spacing
+            and self.y_spacing == other.y_spacing
+            and self.x_init == other.x_init
+            and self.y_init == other.y_init
+        )
 
     def print_impl(self, printer: Printer) -> None:
         printer.plain_print("Grid(")
@@ -453,7 +461,10 @@ class SubGrid(Grid[NumX, NumY]):
         )
 
     def __hash__(self):
-        return id(self)
+        return super().__hash__()
+
+    def __eq__(self, other: Any) -> bool:
+        return super().__eq__(other)
 
     def __repr__(self):
         return super().__repr__()

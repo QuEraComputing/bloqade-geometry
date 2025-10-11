@@ -87,82 +87,135 @@ class TestGrid:
             y_init=4,
         )
         assert shifted_grid.is_equal(expected_grid)
-    
+
     @pytest.mark.parametrize(
         "x_indices, x_shift, expected_grid",
         [
-            (ilist.IList([]), 0, Grid(
-                x_spacing=(1, 2, 3),
-                y_spacing=(4, 5),
-                x_init=1,
-                y_init=2,
-            )),
-            (ilist.IList([0, 1]), 1, Grid(
-                x_spacing=(1, 1, 3),
-                y_spacing=(4, 5),
-                x_init=2,
-                y_init=2,
-            )),
-            (ilist.IList([1]), 1, Grid(
-                x_spacing=(2, 1, 3),
-                y_spacing=(4, 5),
-                x_init=1,
-                y_init=2,
-            )),
-            (ilist.IList([1, 2, 3]), 1, Grid(
-                x_spacing=(2, 2, 3),
-                y_spacing=(4, 5),
-                x_init=1,
-                y_init=2,
-            )),
-            (slice(1, 4, 1), 1, Grid(
-                x_spacing=(2, 2, 3),
-                y_spacing=(4, 5),
-                x_init=1,
-                y_init=2,
-            ))
+            (
+                ilist.IList([]),
+                0,
+                Grid(
+                    x_spacing=(1, 2, 3),
+                    y_spacing=(4, 5),
+                    x_init=1,
+                    y_init=2,
+                ),
+            ),
+            (
+                ilist.IList([0, 1]),
+                1,
+                Grid(
+                    x_spacing=(1, 1, 3),
+                    y_spacing=(4, 5),
+                    x_init=2,
+                    y_init=2,
+                ),
+            ),
+            (
+                ilist.IList([1]),
+                1,
+                Grid(
+                    x_spacing=(2, 1, 3),
+                    y_spacing=(4, 5),
+                    x_init=1,
+                    y_init=2,
+                ),
+            ),
+            (
+                ilist.IList([1, 2, 3]),
+                1,
+                Grid(
+                    x_spacing=(2, 2, 3),
+                    y_spacing=(4, 5),
+                    x_init=1,
+                    y_init=2,
+                ),
+            ),
+            (
+                slice(1, 4, 1),
+                1,
+                Grid(
+                    x_spacing=(2, 2, 3),
+                    y_spacing=(4, 5),
+                    x_init=1,
+                    y_init=2,
+                ),
+            ),
+            (ilist.IList([1]), 3, None),
         ],
     )
     def test_shift_subgrid_x(self, x_indices, x_shift, expected_grid):
+        if expected_grid is None:
+            with pytest.raises(AssertionError):
+                shifted_grid = self.grid_obj.shift_subgrid_x(x_indices, x_shift)
+            return
+
         shifted_grid = self.grid_obj.shift_subgrid_x(x_indices, x_shift)
         assert shifted_grid.is_equal(expected_grid)
-    
+
     @pytest.mark.parametrize(
         "y_indices, y_shift, expected_grid",
         [
-            (ilist.IList([]), 0, Grid(
-                x_spacing=(1, 2, 3),
-                y_spacing=(4, 5),
-                x_init=1,
-                y_init=2,
-            )),
-            (ilist.IList([0]), -1, Grid(
-                x_spacing=(1, 2, 3),
-                y_spacing=(5, 5),
-                x_init=1,
-                y_init=1,
-            )),
-            (ilist.IList([1]), 1, Grid(
-                x_spacing=(1, 2, 3),
-                y_spacing=(5, 4),
-                x_init=1,
-                y_init=2,
-            )),
-            (ilist.IList([0, 2]), 1, Grid(
-                x_spacing=(1, 2, 3),
-                y_spacing=(3, 6),
-                x_init=1,
-                y_init=3,
-            )),
-            (slice(0, 1, 1), -1, Grid(
-                x_spacing=(1, 2, 3),
-                y_spacing=(5, 5),
-                x_init=1,
-                y_init=1,
-            )),
+            (
+                ilist.IList([]),
+                0,
+                Grid(
+                    x_spacing=(1, 2, 3),
+                    y_spacing=(4, 5),
+                    x_init=1,
+                    y_init=2,
+                ),
+            ),
+            (
+                ilist.IList([0]),
+                -1,
+                Grid(
+                    x_spacing=(1, 2, 3),
+                    y_spacing=(5, 5),
+                    x_init=1,
+                    y_init=1,
+                ),
+            ),
+            (
+                ilist.IList([1]),
+                1,
+                Grid(
+                    x_spacing=(1, 2, 3),
+                    y_spacing=(5, 4),
+                    x_init=1,
+                    y_init=2,
+                ),
+            ),
+            (
+                ilist.IList([0, 2]),
+                1,
+                Grid(
+                    x_spacing=(1, 2, 3),
+                    y_spacing=(3, 6),
+                    x_init=1,
+                    y_init=3,
+                ),
+            ),
+            (
+                slice(0, 1, 1),
+                -1,
+                Grid(
+                    x_spacing=(1, 2, 3),
+                    y_spacing=(5, 5),
+                    x_init=1,
+                    y_init=1,
+                ),
+            ),
+            (ilist.IList([0]), 5, None),
         ],
     )
     def test_shift_subgrid_y(self, y_indices, y_shift, expected_grid):
+
+        if expected_grid is None:
+            with pytest.raises(AssertionError):
+                shifted_grid = self.grid_obj.shift_subgrid_y(y_indices, y_shift)
+            return
+
         shifted_grid = self.grid_obj.shift_subgrid_y(y_indices, y_shift)
         assert shifted_grid.is_equal(expected_grid)
 

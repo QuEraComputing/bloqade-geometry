@@ -377,7 +377,9 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             y_init=self.y_init + y_shift if self.y_init is not None else None,
         )
 
-    def shift_subgrid_x(self, x_indices: ilist.IList[int, Nx] | slice, x_shift: float) -> "Grid[NumX, NumY]":
+    def shift_subgrid_x(
+        self, x_indices: ilist.IList[int, Nx] | slice, x_shift: float
+    ) -> "Grid[NumX, NumY]":
         """Shift a sub grid of grid in the x directions.
 
         Args:
@@ -388,6 +390,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             Grid: a new grid object that has been shifted
         """
         indices = get_indices(len(self.x_spacing) + 1, x_indices)
+
         def shift_x(index):
             new_spacing = self.x_spacing[index]
             if index in indices and (index + 1) not in indices:
@@ -398,6 +401,9 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
         new_spacing = tuple(shift_x(i) for i in range(len(self.x_spacing)))
 
+        assert all(
+            x >= 0 for x in new_spacing
+        ), "Invalid shift: column order changes after shift."
 
         x_init = self.x_init
         if x_init is not None and 0 in indices:
@@ -407,10 +413,12 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             x_spacing=new_spacing,
             y_spacing=self.y_spacing,
             x_init=x_init,
-            y_init=self.y_init
+            y_init=self.y_init,
         )
 
-    def shift_subgrid_y(self, y_indices: ilist.IList[int, Ny] | slice, y_shift: float) -> "Grid[NumX, NumY]":
+    def shift_subgrid_y(
+        self, y_indices: ilist.IList[int, Ny] | slice, y_shift: float
+    ) -> "Grid[NumX, NumY]":
         """Shift a sub grid of grid in the y directions.
 
         Args:
@@ -421,6 +429,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             Grid: a new grid object that has been shifted
         """
         indices = get_indices(len(self.y_spacing) + 1, y_indices)
+
         def shift_y(index):
             new_spacing = self.y_spacing[index]
             if index in indices and (index + 1) not in indices:
@@ -431,6 +440,10 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
         new_spacing = tuple(shift_y(i) for i in range(len(self.y_spacing)))
 
+        assert all(
+            y >= 0 for y in new_spacing
+        ), "Invalid shift: row order changes after shift."
+
         y_init = self.y_init
         if y_init is not None and 0 in indices:
             y_init += y_shift
@@ -439,9 +452,9 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             x_spacing=self.x_spacing,
             y_spacing=new_spacing,
             x_init=self.x_init,
-            y_init=y_init
+            y_init=y_init,
         )
-    
+
     def repeat(
         self, x_times: int, y_times: int, x_gap: float, y_gap: float
     ) -> "Grid[NumX, NumY]":

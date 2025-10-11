@@ -153,13 +153,13 @@ class GridInterpreter(MethodTable):
         y_shift = frame.get_casted(stmt.y_shift, float)
 
         return (grid.shift(x_shift, y_shift),)
-    
+
     @impl(stmts.ShiftSubgridX)
     def shift_subgrid_x(
         self,
         interp: Interpreter,
         frame: Frame,
-        stmt: stmts.Shift,
+        stmt: stmts.ShiftSubgridX,
     ):
         grid = frame.get_casted(stmt.zone, Grid)
         x_indices = frame.get_casted(stmt.x_indices, ilist.IList)
@@ -172,7 +172,7 @@ class GridInterpreter(MethodTable):
         self,
         interp: Interpreter,
         frame: Frame,
-        stmt: stmts.Shift,
+        stmt: stmts.ShiftSubgridY,
     ):
         grid = frame.get_casted(stmt.zone, Grid)
         y_indices = frame.get_casted(stmt.y_indices, ilist.IList)

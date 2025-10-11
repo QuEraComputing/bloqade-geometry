@@ -31,5 +31,7 @@ from .stmts import (
     Scale as Scale,
     Shape as Shape,
     Shift as Shift,
+    ShiftSubgridX as ShiftSubgridX,
+    ShiftSubgridY as ShiftSubgridY,
 )
 from .types import Grid as Grid, GridType as GridType

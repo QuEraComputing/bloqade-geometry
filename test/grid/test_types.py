@@ -114,6 +114,12 @@ class TestGrid:
                 y_spacing=(4, 5),
                 x_init=1,
                 y_init=2,
+            )),
+            (slice(1, 4, 1), 1, Grid(
+                x_spacing=(2, 2, 3),
+                y_spacing=(4, 5),
+                x_init=1,
+                y_init=2,
             ))
         ],
     )
@@ -147,6 +153,12 @@ class TestGrid:
                 y_spacing=(3, 6),
                 x_init=1,
                 y_init=3,
+            )),
+            (slice(0, 1, 1), -1, Grid(
+                x_spacing=(1, 2, 3),
+                y_spacing=(5, 5),
+                x_init=1,
+                y_init=1,
             )),
         ],
     )

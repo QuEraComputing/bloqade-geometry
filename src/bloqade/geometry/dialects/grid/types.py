@@ -377,7 +377,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             y_init=self.y_init + y_shift if self.y_init is not None else None,
         )
 
-    def shift_subgrid_x(self, x_indices: ilist.IList[int, Nx], x_shift: float) -> "Grid[NumX, NumY]":
+    def shift_subgrid_x(self, x_indices: ilist.IList[int, Nx] | slice, x_shift: float) -> "Grid[NumX, NumY]":
         """Shift a sub grid of grid in the x directions.
 
         Args:
@@ -387,11 +387,12 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         Returns:
             Grid: a new grid object that has been shifted
         """
+        indices = get_indices(len(self.x_spacing) + 1, x_indices)
         def shift_x(index):
             new_spacing = self.x_spacing[index]
-            if index in x_indices and (index + 1) not in x_indices:
+            if index in indices and (index + 1) not in indices:
                 new_spacing -= x_shift
-            elif index not in x_indices and (index + 1) in x_indices:
+            elif index not in indices and (index + 1) in indices:
                 new_spacing += x_shift
             return new_spacing
 
@@ -399,7 +400,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
 
         x_init = self.x_init
-        if x_init is not None and 0 in x_indices:
+        if x_init is not None and 0 in indices:
             x_init += x_shift
 
         return Grid(
@@ -409,7 +410,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             y_init=self.y_init
         )
 
-    def shift_subgrid_y(self, y_indices: ilist.IList[int, Ny], y_shift: float) -> "Grid[NumX, NumY]":
+    def shift_subgrid_y(self, y_indices: ilist.IList[int, Ny] | slice, y_shift: float) -> "Grid[NumX, NumY]":
         """Shift a sub grid of grid in the y directions.
 
         Args:
@@ -419,18 +420,19 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         Returns:
             Grid: a new grid object that has been shifted
         """
+        indices = get_indices(len(self.y_spacing) + 1, y_indices)
         def shift_y(index):
             new_spacing = self.y_spacing[index]
-            if index in y_indices and (index + 1) not in y_indices:
+            if index in indices and (index + 1) not in indices:
                 new_spacing -= y_shift
-            elif index not in y_indices and (index + 1) in y_indices:
+            elif index not in indices and (index + 1) in indices:
                 new_spacing += y_shift
             return new_spacing
 
         new_spacing = tuple(shift_y(i) for i in range(len(self.y_spacing)))
 
         y_init = self.y_init
-        if y_init is not None and 0 in y_indices:
+        if y_init is not None and 0 in indices:
             y_init += y_shift
 
         return Grid(

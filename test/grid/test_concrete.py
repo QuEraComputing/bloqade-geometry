@@ -81,6 +81,8 @@ class TestGridInterpreter:
             (grid.GetYPos, "y_positions", ()),
             (grid.Get, "get", ((1, 0),)),
             (grid.Shift, "shift", (1.0, 2.0)),
+            (grid.ShiftSubgridX, "shift_subgrid_x", (ilist.IList([0]), -1)),
+            (grid.ShiftSubgridY, "shift_subgrid_y", (ilist.IList([0]), -1)),
             (grid.Scale, "scale", (1.0, 2.0)),
             (grid.Repeat, "repeat", (1, 2, 0.5, 1.0)),
             (grid.GetSubGrid, "get_view", (ilist.IList((0,)), ilist.IList((1,)))),

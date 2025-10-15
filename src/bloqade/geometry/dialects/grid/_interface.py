@@ -18,7 +18,7 @@ from .stmts import (
     Shape,
     Shift,
     ShiftSubgridX,
-    ShiftSubgridY
+    ShiftSubgridY,
 )
 from .types import Grid
 
@@ -232,8 +232,11 @@ def shift(grid: Grid[Nx, Ny], x_shift: float, y_shift: float) -> Grid[Nx, Ny]:
     """
     ...
 
+
 @_wraps(ShiftSubgridX)
-def shift_subgrid_x(grid: Grid[Nx, Ny], x_indices: ilist.IList[int, typing.Any], x_shift: float) -> Grid[Nx, Ny]:
+def shift_subgrid_x(
+    grid: Grid[Nx, Ny], x_indices: ilist.IList[int, typing.Any], x_shift: float
+) -> Grid[Nx, Ny]:
     """Shift a sub grid of grid in the x directions.
 
     Args:
@@ -245,8 +248,11 @@ def shift_subgrid_x(grid: Grid[Nx, Ny], x_indices: ilist.IList[int, typing.Any],
     """
     ...
 
+
 @_wraps(ShiftSubgridY)
-def shift_subgrid_y(grid: Grid[Nx, Ny], y_indices: ilist.IList[int, typing.Any], y_shift: float) -> Grid[Nx, Ny]:
+def shift_subgrid_y(
+    grid: Grid[Nx, Ny], y_indices: ilist.IList[int, typing.Any], y_shift: float
+) -> Grid[Nx, Ny]:
     """Shift a sub grid of grid in the y directions.
 
     Args:

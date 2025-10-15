@@ -145,6 +145,7 @@ class Shift(ir.Statement):
     y_shift: ir.SSAValue = info.argument(types.Float)
     result: ir.ResultValue = info.result(GridType[NumX, NumY])
 
+
 @statement(dialect=dialect)
 class ShiftSubgridX(ir.Statement):
     name = "shift_subgrid_x"
@@ -152,9 +153,12 @@ class ShiftSubgridX(ir.Statement):
     zone: ir.SSAValue = info.argument(
         type=GridType[NumX := types.TypeVar("NumX"), NumY := types.TypeVar("NumY")]
     )
-    x_indices: ir.SSAValue = info.argument(ilist.IListType[types.Int, types.TypeVar("SubNumX")])
+    x_indices: ir.SSAValue = info.argument(
+        ilist.IListType[types.Int, types.TypeVar("SubNumX")]
+    )
     x_shift: ir.SSAValue = info.argument(types.Float)
     result: ir.ResultValue = info.result(GridType[NumX, NumY])
+
 
 @statement(dialect=dialect)
 class ShiftSubgridY(ir.Statement):
@@ -163,9 +167,12 @@ class ShiftSubgridY(ir.Statement):
     zone: ir.SSAValue = info.argument(
         type=GridType[NumX := types.TypeVar("NumX"), NumY := types.TypeVar("NumY")]
     )
-    y_indices: ir.SSAValue = info.argument(ilist.IListType[types.Int, types.TypeVar("SubNumY")])
+    y_indices: ir.SSAValue = info.argument(
+        ilist.IListType[types.Int, types.TypeVar("SubNumY")]
+    )
     y_shift: ir.SSAValue = info.argument(types.Float)
     result: ir.ResultValue = info.result(GridType[NumX, NumY])
+
 
 @statement(dialect=dialect)
 class Scale(ir.Statement):

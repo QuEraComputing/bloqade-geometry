@@ -423,7 +423,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
         Args:
             grid (Grid): a grid object
-            y_indices (float): a list/ilist of x indices to shift
+            y_indices (float): a list/ilist of y indices to shift
             y_shift (float): shift in the y direction
         Returns:
             Grid: a new grid object that has been shifted

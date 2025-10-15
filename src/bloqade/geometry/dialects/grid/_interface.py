@@ -251,7 +251,7 @@ def shift_subgrid_y(grid: Grid[Nx, Ny], y_indices: ilist.IList[int, typing.Any],
 
     Args:
         grid (Grid): a grid object
-        y_indices (float): a list/ilist of y indices to shift
+        y_indices (ilist.IList[int, typing.Any]): a list/ilist of y indices to shift
         y_shift (float): shift in the y direction
     Returns:
         Grid: a new grid object that has been shifted

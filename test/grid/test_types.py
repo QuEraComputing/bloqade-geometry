@@ -244,39 +244,48 @@ class TestGrid:
         [(None, None), (1, 2), (3, 4), (5, None), (None, 6)],
     )
     def test_set_init(self, x_init: float | None, y_init: float | None):
+        old_x_init = self.grid_obj.x_init
+        old_y_init = self.grid_obj.y_init
         new_grid = self.grid_obj.set_init(x_init, y_init)
+
         expected_grid = Grid(
             x_spacing=(1, 2, 3),
             y_spacing=(4, 5),
-            x_init=x_init,
-            y_init=y_init,
+            x_init=old_x_init if x_init is None else x_init,
+            y_init=old_y_init if y_init is None else y_init,
         )
 
         assert new_grid.is_equal(expected_grid)
 
     def test_empty_positions_x(self):
-        grid_obj = Grid.from_positions([], [1])
-        assert grid_obj.x_positions == ()
-        assert grid_obj.y_positions == (1,)
         with pytest.raises(ValueError):
-            grid_obj.x_bounds()
-        assert grid_obj.y_bounds() == (1, 1)
-        assert grid_obj.width == 0
-        assert grid_obj.height == 0
+            _ = Grid.from_positions([], [1])
 
     def test_empty_positions_y(self):
-        grid_obj = Grid.from_positions([1], [])
-        assert grid_obj.x_positions == (1,)
-        assert grid_obj.y_positions == ()
         with pytest.raises(ValueError):
-            grid_obj.y_bounds()
-        assert grid_obj.x_bounds() == (1, 1)
-        assert grid_obj.width == 0
-        assert grid_obj.height == 0
+            _ = Grid.from_positions([1], [])
 
+    def test_subgrid(self):
+        grid_obj = self.grid_obj
 
-class TestSubGrid(TestGrid):
+        assert grid_obj[::2, ::2] == Grid.from_positions(
+            [1, 4],
+            [2, 11],
+        )
 
-    def _get_grid(self):
-        grid_obj = super()._get_grid()
-        return grid_obj.get_view(ilist.IList([0, 1, 2, 3]), ilist.IList([0, 1, 2]))
+    def test_contains(self):
+        grid_obj = self.grid_obj
+
+        subgrid = Grid.from_positions(
+            [2, 4],
+            [6],
+        )
+
+        assert subgrid in grid_obj
+
+        non_subgrid = Grid.from_positions(
+            [0, 4],
+            [6],
+        )
+
+        assert non_subgrid not in grid_obj

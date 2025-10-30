@@ -38,10 +38,10 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
     """A tuple of x spacings between grid points."""
     y_spacing: tuple[float, ...]
     """A tuple of y spacings between grid points."""
-    x_init: float | None
-    """The initial x position of the grid, or None if not set."""
-    y_init: float | None
-    """The initial y position of the grid, or None if not set."""
+    x_init: float
+    """The initial x position of the grid."""
+    y_init: float
+    """The initial y position of the grid."""
 
     def __post_init__(self):
         assert all(ele >= 0 for ele in self.x_spacing)
@@ -86,8 +86,14 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         Returns:
             Grid: A grid object with the specified x and y positions.
         """
-        x_init = x_positions[0] if len(x_positions) > 0 else None
-        y_init = y_positions[0] if len(y_positions) > 0 else None
+        if len(x_positions) == 0:
+            raise ValueError("x_positions cannot be empty")
+
+        if len(y_positions) == 0:
+            raise ValueError("y_positions cannot be empty")
+
+        x_init = x_positions[0]
+        y_init = y_positions[0]
 
         if len(x_positions) > 1:
             x_spacing = tuple(
@@ -134,9 +140,6 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             ValueError: If x_init is None, cannot compute bounds.
 
         """
-        if self.x_init is None:
-            raise ValueError("x_init is None, cannot compute bounds")
-
         return (self.x_init, self.x_init + self.width)
 
     def y_bounds(self):
@@ -146,9 +149,6 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             ValueError: If y_init is None, cannot compute bounds.
 
         """
-        if self.y_init is None:
-            raise ValueError("y_init is None, cannot compute bounds")
-
         return (self.y_init, self.y_init + self.height)
 
     @cached_property
@@ -235,17 +235,21 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         Returns:
             Grid: The sub-grid view.
         """
-        if isinstance(x_indices, ilist.IList):
-            x_indices = x_indices.data
 
-        if isinstance(y_indices, ilist.IList):
-            y_indices = y_indices.data
-
-        return SubGrid(
-            parent=self,
-            x_indices=ilist.IList(x_indices),
-            y_indices=ilist.IList(y_indices),
+        x_spacing = tuple(
+            sum(self.x_spacing[start:end], 0.0)
+            for start, end in zip(x_indices[:-1], x_indices[1:])
         )
+
+        y_spacing = tuple(
+            sum(self.y_spacing[start:end], 0.0)
+            for start, end in zip(y_indices[:-1], y_indices[1:])
+        )
+
+        x_init = self.x_init + sum(self.x_spacing[: x_indices[0]])
+        y_init = self.y_init + sum(self.y_spacing[: y_indices[0]])
+
+        return Grid(x_spacing, y_spacing, x_init, y_init)
 
     @overload
     def __getitem__(
@@ -357,6 +361,8 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             Grid[NumX, NumY]: A new grid with the specified initial positions.
 
         """
+        x_init = self.x_init if x_init is None else x_init
+        y_init = self.y_init if y_init is None else y_init
         return Grid(self.x_spacing, self.y_spacing, x_init, y_init)
 
     def shift(self, x_shift: float, y_shift: float) -> "Grid[NumX, NumY]":
@@ -373,8 +379,8 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         return Grid(
             x_spacing=self.x_spacing,
             y_spacing=self.y_spacing,
-            x_init=self.x_init + x_shift if self.x_init is not None else None,
-            y_init=self.y_init + y_shift if self.y_init is not None else None,
+            x_init=self.x_init + x_shift,
+            y_init=self.y_init + y_shift,
         )
 
     def shift_subgrid_x(
@@ -483,71 +489,13 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             y_init=self.y_init,
         )
 
+    def __contains__(self, other: "Grid[Any, Any]") -> bool:
+        other_x_positions = set(other.x_positions)
+        other_y_positions = set(other.y_positions)
 
-@dataclasses.dataclass
-class SubGrid(Grid[NumX, NumY]):
-    """A sub-grid view of a parent grid with specified x and y indices.
-
-    For API documentation see the `Grid` class.
-
-    """
-
-    x_spacing: tuple[float, ...] = dataclasses.field(init=False)
-    y_spacing: tuple[float, ...] = dataclasses.field(init=False)
-    x_init: float | None = dataclasses.field(init=False)
-    y_init: float | None = dataclasses.field(init=False)
-
-    parent: Grid[Any, Any]
-    x_indices: ilist.IList[int, NumX]
-    y_indices: ilist.IList[int, NumY]
-
-    def __post_init__(self):
-        if len(self.x_indices) == 0 or len(self.y_indices) == 0:
-            raise ValueError("Indices cannot be empty")
-
-        self.x_spacing = tuple(
-            sum(self.parent.x_spacing[start:end])
-            for start, end in zip(self.x_indices[:-1], self.x_indices[1:])
-        )
-
-        self.y_spacing = tuple(
-            sum(self.parent.y_spacing[start:end])
-            for start, end in zip(self.y_indices[:-1], self.y_indices[1:])
-        )
-        if self.parent.x_init is not None:
-            self.x_init = self.parent.x_init + sum(
-                self.parent.x_spacing[: self.x_indices[0]]
-            )
-        else:
-            self.x_init = None
-
-        if self.parent.y_init is not None:
-            self.y_init = self.parent.y_init + sum(
-                self.parent.y_spacing[: self.y_indices[0]]
-            )
-        else:
-            self.y_init = None
-
-        self.type = types.Generic(
-            SubGrid,
-            types.Literal(len(self.x_indices)),
-            types.Literal(len(self.y_indices)),
-        )
-
-    def get_view(self, x_indices, y_indices):
-        return self.parent.get_view(
-            x_indices=ilist.IList([self.x_indices[x_index] for x_index in x_indices]),
-            y_indices=ilist.IList([self.y_indices[y_index] for y_index in y_indices]),
-        )
-
-    def __hash__(self):
-        return super().__hash__()
-
-    def __eq__(self, other: Any) -> bool:
-        return super().__eq__(other)
-
-    def __repr__(self):
-        return super().__repr__()
+        return other_x_positions.issubset(
+            self.x_positions
+        ) and other_y_positions.issubset(self.y_positions)
 
 
-GridType = types.Generic(Grid, types.TypeVar("Nx"), types.TypeVar("Ny"))
+GridType = types.Generic(Grid, types.TypeVar("NumX"), types.TypeVar("NumY"))

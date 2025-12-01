@@ -217,3 +217,25 @@ class GridInterpreter(MethodTable):
     ):
         grid = frame.get_casted(stmt.zone, Grid)
         return (grid.positions,)
+
+    @impl(stmts.RowXPos)
+    def row_x_pos(
+        self,
+        interp: Interpreter,
+        frame: Frame,
+        stmt: stmts.RowXPos,
+    ):
+        grid = frame.get_casted(stmt.zone, Grid)
+        row_index = frame.get_casted(stmt.row_index, int)
+        return (grid.row_x_pos(row_index),)
+
+    @impl(stmts.ColYPos)
+    def col_y_pos(
+        self,
+        interp: Interpreter,
+        frame: Frame,
+        stmt: stmts.ColYPos,
+    ):
+        grid = frame.get_casted(stmt.zone, Grid)
+        column_index = frame.get_casted(stmt.column_index, int)
+        return (grid.col_y_pos(column_index),)

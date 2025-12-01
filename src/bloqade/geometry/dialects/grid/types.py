@@ -5,7 +5,6 @@ from typing import Any, Generic, Literal, Sequence, TypeVar, overload
 
 from kirin import ir, types
 from kirin.dialects import ilist
-from kirin.dialects.py.slice import SliceAttribute
 from kirin.print.printer import Printer
 
 NumX = TypeVar("NumX")
@@ -15,9 +14,6 @@ NumY = TypeVar("NumY")
 def get_indices(size: int, index: Any) -> ilist.IList[int, Any]:
     if isinstance(index, slice):
         return ilist.IList(range(size)[index])
-    elif isinstance(index, SliceAttribute):
-        slice_value = index.unwrap()
-        return ilist.IList(range(size)[slice_value])
     elif isinstance(index, int):
         if index < 0:
             index += size
@@ -482,6 +478,28 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
             x_init=self.x_init,
             y_init=self.y_init,
         )
+
+    def row_x_pos(self, row_index: int) -> ilist.IList[float, NumX]:
+        """Get the x positions of a specific row in the grid.
+
+        Args:
+            row_index (int): The index of the row.
+
+        Returns:
+            IList[float, NumX]: The x positions of the specified row.
+        """
+        return ilist.IList(list(self.x_positions))
+
+    def col_y_pos(self, column_index: int) -> ilist.IList[float, NumY]:
+        """Get the y positions of a specific column in the grid.
+
+        Args:
+            column_index (int): The index of the column.
+
+        Returns:
+            IList[float, NumY]: The y positions of the specified column.
+        """
+        return ilist.IList(list(self.y_positions))
 
 
 @dataclasses.dataclass

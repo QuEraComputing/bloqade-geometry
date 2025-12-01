@@ -198,3 +198,19 @@ class Repeat(ir.Statement):
     x_gap: ir.SSAValue = info.argument(types.Float)
     y_gap: ir.SSAValue = info.argument(types.Float)
     result: ir.ResultValue = info.result(GridType[types.Any, types.Any])
+
+
+@statement(dialect=dialect)
+class RowXPos(ir.Statement):
+    traits = frozenset({ir.Pure(), lowering.FromPythonCall()})
+    zone: ir.SSAValue = info.argument(type=GridType[types.Any, types.Any])
+    row_index: ir.SSAValue = info.argument(types.Int)
+    result: ir.ResultValue = info.result(ilist.IListType[types.Float, types.Any])
+
+
+@statement(dialect=dialect)
+class ColYPos(ir.Statement):
+    traits = frozenset({ir.Pure(), lowering.FromPythonCall()})
+    zone: ir.SSAValue = info.argument(type=GridType[types.Any, types.Any])
+    column_index: ir.SSAValue = info.argument(types.Int)
+    result: ir.ResultValue = info.result(ilist.IListType[types.Float, types.Any])

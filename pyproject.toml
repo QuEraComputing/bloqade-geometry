@@ -7,7 +7,7 @@ authors = [
     { name = "Phillip Weinberg", email = "pweinberg@quera.com" }
 ]
 dependencies = [
-    "kirin-toolchain~=0.18.0",
+    "kirin-toolchain~=0.22.0",
 ]
 requires-python = ">= 3.10"
 

@@ -20,7 +20,9 @@ nav:
         - grid:
           - statements: reference/bloqade/geometry/dialects/grid/_interface.md
           - types: reference/bloqade/geometry/dialects/grid/types.md
-
+        - filled:
+          - statements: reference/bloqade/geometry/dialects/filled/_interface.md
+          - types: reference/bloqade/geometry/dialects/filled/types.md
 
 
 theme:

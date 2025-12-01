@@ -4,6 +4,7 @@ from kirin.dialects import ilist
 from kirin.lowering import wraps as _wraps
 
 from .stmts import (
+    ColYPos,
     FromPositions,
     Get,
     GetSubGrid,
@@ -14,6 +15,7 @@ from .stmts import (
     New,
     Positions,
     Repeat,
+    RowXPos,
     Scale,
     Shape,
     Shift,
@@ -273,5 +275,35 @@ def shape(grid: Grid) -> tuple[int, int]:
         grid (Grid): a grid object
     Returns:
         tuple[int, int]: a tuple of (num_x, num_y)
+    """
+    ...
+
+
+@_wraps(RowXPos)
+def row_xpos(
+    grid: Grid[typing.Any, typing.Any], row_index: int
+) -> ilist.IList[float, typing.Any]:
+    """Get the x positions of a specific row in the grid.
+
+    Args:
+        grid (Grid): a grid object
+        row_index (int): the index of the row to get x positions for
+    Returns:
+        ilist.IList[float, typing.Any]: a list of x positions for the specified row
+    """
+    ...
+
+
+@_wraps(ColYPos)
+def col_ypos(
+    grid: Grid[typing.Any, typing.Any], column_index: int
+) -> ilist.IList[float, typing.Any]:
+    """Get the y positions of a specific column in the grid.
+
+    Args:
+        grid (Grid): a grid object
+        column_index (int | None): the index of the column to get y positions for, or None for all columns
+    Returns:
+        ilist.IList[float, typing.Any]: a list of y positions for the specified column
     """
     ...

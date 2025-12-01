@@ -274,6 +274,14 @@ class TestGrid:
         assert grid_obj.width == 0
         assert grid_obj.height == 0
 
+    def test_row_x_pos(self):
+        grid_obj = Grid.from_positions([1, 2, 3], [4, 5, 6])
+        assert grid_obj.row_x_pos(0) == ilist.IList([1, 2, 3])
+
+    def test_col_y_pos(self):
+        grid_obj = Grid.from_positions([1, 2, 3], [4, 5, 6])
+        assert grid_obj.col_y_pos(1) == ilist.IList([4, 5, 6])
+
 
 class TestSubGrid(TestGrid):
 

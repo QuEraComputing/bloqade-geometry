@@ -5,10 +5,10 @@ from kirin.passes.default import Default
 from kirin.prelude import structural
 from typing_extensions import Annotated, Doc
 
-from bloqade.geometry.dialects import grid
+from bloqade.geometry.dialects import filled, grid
 
 
-@ir.dialect_group(structural.add(grid))
+@ir.dialect_group(structural.union([grid, filled]))
 def geometry(
     self,
 ):

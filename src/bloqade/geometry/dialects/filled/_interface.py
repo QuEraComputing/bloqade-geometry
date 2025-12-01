@@ -28,25 +28,3 @@ def fill(
 
 @_wraps(GetParent)
 def get_parent(filled_grid: FilledGrid[Nx, Ny]) -> grid.Grid[Nx, Ny]: ...
-
-
-@_wraps(grid.Shift)
-def shift(
-    grid: FilledGrid[Nx, Ny], x_shift: float, y_shift: float
-) -> FilledGrid[Nx, Ny]: ...
-
-
-@_wraps(grid.Scale)
-def scale(
-    grid: FilledGrid[Nx, Ny], x_scale: float, y_scale: float
-) -> FilledGrid[Nx, Ny]: ...
-
-
-@_wraps(grid.Repeat)
-def repeat(
-    grid: FilledGrid[Any, Any],
-    x_times: int,
-    y_times: int,
-    y_spacing: float,
-    x_spacing: float,
-) -> FilledGrid[Any, Any]: ...

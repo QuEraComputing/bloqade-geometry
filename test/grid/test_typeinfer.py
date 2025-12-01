@@ -3,7 +3,7 @@ from typing import Any, Literal
 from kirin import types
 from kirin.dialects import ilist
 
-from bloqade.geometry import grid
+from bloqade.geometry.dialects import grid
 from bloqade.geometry.prelude import geometry
 
 

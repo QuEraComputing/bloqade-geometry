@@ -494,7 +494,7 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         """Get the y positions of a specific column in the grid.
 
         Args:
-            column_index (int ): The index of the column. If None, returns all y positions.
+            column_index (int): The index of the column.
 
         Returns:
             IList[float, NumY]: The y positions of the specified column.

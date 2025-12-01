@@ -133,12 +133,10 @@ class FilledGrid(grid.Grid[NumX, NumY]):
             [x for i, x in enumerate(self.parent.x_positions) if i not in x_vacancies]
         )
 
-    def col_y_pos(self, column_index: int | None):
-        y_vacancies = {
-            y for x, y in self.vacancies if column_index is None or x == column_index
-        }
+    def col_y_pos(self, column_index: int):
+        y_vacancies = {y for x, y in self.vacancies if x == column_index}
         return ilist.IList(
-            [y for i, y in enumerate(self.parent.y_positions) if i not in y_vacancies]
+            [y for i, y in enumerate(self.y_positions) if i not in y_vacancies]
         )
 
 

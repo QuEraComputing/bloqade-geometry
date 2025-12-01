@@ -67,12 +67,14 @@ class FilledGrid(grid.Grid[NumX, NumY]):
 
         if isinstance(grid_obj, FilledGrid):
             vacancies = grid_obj.vacancies
+            parent = grid_obj.parent
         else:
             vacancies = frozenset(product(range(num_x), range(num_y)))
+            parent = grid_obj
 
         vacancies = vacancies - frozenset(filled)
 
-        return cls(parent=grid_obj, vacancies=vacancies)
+        return cls(parent=parent, vacancies=vacancies)
 
     @classmethod
     def vacate(
@@ -81,12 +83,14 @@ class FilledGrid(grid.Grid[NumX, NumY]):
 
         if isinstance(grid_obj, FilledGrid):
             input_vacancies = grid_obj.vacancies
+            parent = grid_obj.parent
         else:
             input_vacancies = frozenset()
+            parent = grid_obj
 
         input_vacancies = input_vacancies.union(vacancies)
 
-        return cls(parent=grid_obj, vacancies=input_vacancies)
+        return cls(parent=parent, vacancies=input_vacancies)
 
     def get_view(  # type: ignore
         self, x_indices: ilist.IList[int, Any], y_indices: ilist.IList[int, Any]

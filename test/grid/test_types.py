@@ -219,6 +219,10 @@ class TestGrid:
         shifted_grid = self.grid_obj.shift_subgrid_y(y_indices, y_shift)
         assert shifted_grid.is_equal(expected_grid)
 
+    def test_invalid_slice(self):
+        with pytest.raises(TypeError):
+            self.grid_obj[[1.5], ilist.IList([0, 1])]  # type: ignore
+
     def test_scale(self):
         scaled_grid = self.grid_obj.scale(2, 3)
         expected_grid = Grid(

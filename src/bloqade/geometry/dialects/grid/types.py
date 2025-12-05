@@ -24,6 +24,8 @@ def get_indices(size: int, index: Any) -> ilist.IList[int, Any]:
         return ilist.IList([index])
     elif isinstance(index, ilist.IList):
         return index
+    elif isinstance(index, Sequence) and all(isinstance(i, int) for i in index):
+        return ilist.IList(list(index))
     else:
         raise TypeError("Index must be an int, slice, or IList")
 

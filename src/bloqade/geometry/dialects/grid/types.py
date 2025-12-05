@@ -22,10 +22,12 @@ def get_indices(size: int, index: Any) -> ilist.IList[int, Any]:
             raise IndexError("Index out of range")
 
         return ilist.IList([index])
-    elif isinstance(index, ilist.IList):
-        return index
-    else:
-        raise TypeError("Index must be an int, slice, or IList")
+
+    index = ilist.IList(list(index))
+    if any(not isinstance(i, int) for i in index.data):
+        raise TypeError("Index must be an int, slice, or Sequence of ints")
+
+    return index
 
 
 @dataclasses.dataclass

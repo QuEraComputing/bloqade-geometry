@@ -1,5 +1,6 @@
 from ._dialect import dialect as dialect
 from ._interface import (
+    col_ypos as col_ypos,
     from_positions as from_positions,
     get as get,
     get_xpos as get_xpos,
@@ -7,6 +8,7 @@ from ._interface import (
     new as new,
     positions as positions,
     repeat as repeat,
+    row_xpos as row_xpos,
     scale as scale,
     shape as shape,
     shift as shift,

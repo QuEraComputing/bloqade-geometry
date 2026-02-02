@@ -36,7 +36,10 @@ def get_indices(size: int, index: Any) -> ilist.IList[int, Any]:
 
 
 @dataclasses.dataclass
+@dialect.register
 class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
+    name = "grid"
+
     x_spacing: tuple[float, ...]
     """A tuple of x spacings between grid points."""
     y_spacing: tuple[float, ...]
@@ -539,12 +542,15 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
 
 
 @dataclasses.dataclass
+@dialect.register
 class SubGrid(Grid[NumX, NumY]):
     """A sub-grid view of a parent grid with specified x and y indices.
 
     For API documentation see the `Grid` class.
 
     """
+
+    name = "sub_grid"
 
     x_spacing: tuple[float, ...] = dataclasses.field(init=False)
     y_spacing: tuple[float, ...] = dataclasses.field(init=False)
@@ -605,11 +611,11 @@ class SubGrid(Grid[NumX, NumY]):
 
     def serialize(self, serializer: "Serializer") -> "SerializationUnit":
         return SerializationUnit(
-            kind="subgrid",
+            kind="sub_grid",
             module_name=dialect.name,
             class_name=SubGrid.__name__,
             data={
-                "parent": serializer.serialize(self.parent),
+                "parent": serializer.serialize_attribute(self.parent),
                 "x_indices": serializer.serialize(self.x_indices),
                 "y_indices": serializer.serialize(self.y_indices),
             },

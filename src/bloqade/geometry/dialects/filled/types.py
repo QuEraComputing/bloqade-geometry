@@ -18,7 +18,10 @@ NumY = TypeVar("NumY")
 
 
 @dataclass(eq=False)
+@dialect.register
 class FilledGrid(grid.Grid[NumX, NumY]):
+    name = "filled_grid"
+
     x_spacing: tuple[float, ...] = field(init=False)
     y_spacing: tuple[float, ...] = field(init=False)
     x_init: float | None = field(init=False)
@@ -150,7 +153,7 @@ class FilledGrid(grid.Grid[NumX, NumY]):
             module_name=dialect.name,
             class_name=FilledGrid.__name__,
             data={
-                "parent": serializer.serialize(self.parent),
+                "parent": serializer.serialize_attribute(self.parent),
                 "vacancies": serializer.serialize(self.vacancies),
             },
         )

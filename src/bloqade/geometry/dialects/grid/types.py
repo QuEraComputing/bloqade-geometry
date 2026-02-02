@@ -6,6 +6,11 @@ from typing import Any, Generic, Literal, Sequence, TypeVar, overload
 from kirin import ir, types
 from kirin.dialects import ilist
 from kirin.print.printer import Printer
+from kirin.serialization.base.deserializer import Deserializer
+from kirin.serialization.base.serializer import Serializer
+from kirin.serialization.core.serializationunit import SerializationUnit
+
+from ._dialect import dialect
 
 NumX = TypeVar("NumX")
 NumY = TypeVar("NumY")
@@ -503,6 +508,35 @@ class Grid(ir.Data["Grid"], Generic[NumX, NumY]):
         """
         return ilist.IList(list(self.y_positions))
 
+    def serialize(self, serializer: "Serializer") -> "SerializationUnit":
+
+        return SerializationUnit(
+            kind="grid",
+            module_name=dialect.name,
+            class_name=Grid.__name__,
+            data={
+                "x_init": serializer.serialize(self.x_init),
+                "y_init": serializer.serialize(self.y_init),
+                "x_spacing": serializer.serialize(self.x_spacing),
+                "y_spacing": serializer.serialize(self.y_spacing),
+            },
+        )
+
+    @classmethod
+    def deserialize(
+        cls, serUnit: "SerializationUnit", deserializer: "Deserializer"
+    ) -> "Grid":
+        x_init = deserializer.deserialize(serUnit.data["x_init"])
+        y_init = deserializer.deserialize(serUnit.data["y_init"])
+        x_spacing = deserializer.deserialize(serUnit.data["x_spacing"])
+        y_spacing = deserializer.deserialize(serUnit.data["y_spacing"])
+        return Grid(
+            x_spacing=x_spacing,
+            y_spacing=y_spacing,
+            x_init=x_init,
+            y_init=y_init,
+        )
+
 
 @dataclasses.dataclass
 class SubGrid(Grid[NumX, NumY]):
@@ -568,6 +602,27 @@ class SubGrid(Grid[NumX, NumY]):
 
     def __repr__(self):
         return super().__repr__()
+
+    def serialize(self, serializer: "Serializer") -> "SerializationUnit":
+        return SerializationUnit(
+            kind="subgrid",
+            module_name=dialect.name,
+            class_name=SubGrid.__name__,
+            data={
+                "parent": serializer.serialize(self.parent),
+                "x_indices": serializer.serialize(self.x_indices),
+                "y_indices": serializer.serialize(self.y_indices),
+            },
+        )
+
+    @classmethod
+    def deserialize(
+        cls, serUnit: "SerializationUnit", deserializer: "Deserializer"
+    ) -> "SubGrid":
+        parent = deserializer.deserialize(serUnit.data["parent"])
+        x_indices = deserializer.deserialize(serUnit.data["x_indices"])
+        y_indices = deserializer.deserialize(serUnit.data["y_indices"])
+        return SubGrid(parent=parent, x_indices=x_indices, y_indices=y_indices)
 
 
 GridType = types.Generic(Grid, types.TypeVar("Nx"), types.TypeVar("Ny"))

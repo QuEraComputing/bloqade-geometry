@@ -5,15 +5,23 @@ from typing import Any, Iterable, Sequence, TypeVar
 
 from kirin import types
 from kirin.dialects import ilist
+from kirin.serialization.base.deserializer import Deserializer
+from kirin.serialization.base.serializer import Serializer
+from kirin.serialization.core.serializationunit import SerializationUnit
 
 from bloqade.geometry.dialects import grid
+
+from ._dialect import dialect
 
 NumX = TypeVar("NumX")
 NumY = TypeVar("NumY")
 
 
 @dataclass(eq=False)
+@dialect.register
 class FilledGrid(grid.Grid[NumX, NumY]):
+    name = "filled_grid"
+
     x_spacing: tuple[float, ...] = field(init=False)
     y_spacing: tuple[float, ...] = field(init=False)
     x_init: float | None = field(init=False)
@@ -138,6 +146,25 @@ class FilledGrid(grid.Grid[NumX, NumY]):
         return ilist.IList(
             [y for i, y in enumerate(self.y_positions) if i not in y_vacancies]
         )
+
+    def serialize(self, serializer: "Serializer") -> "SerializationUnit":
+        return SerializationUnit(
+            kind="filled_grid",
+            module_name=dialect.name,
+            class_name=FilledGrid.__name__,
+            data={
+                "parent": serializer.serialize_attribute(self.parent),
+                "vacancies": serializer.serialize(self.vacancies),
+            },
+        )
+
+    @classmethod
+    def deserialize(
+        cls, serUnit: "SerializationUnit", deserializer: "Deserializer"
+    ) -> "FilledGrid":
+        parent = deserializer.deserialize(serUnit.data["parent"])
+        vacancies = deserializer.deserialize(serUnit.data["vacancies"])
+        return FilledGrid(parent=parent, vacancies=vacancies)
 
 
 FilledGridType = types.Generic(FilledGrid, types.TypeVar("NumX"), types.TypeVar("NumY"))
